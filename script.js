@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotMessages = document.querySelector('.chatbot-messages');
     const chatbotInput = document.getElementById('chatbot-input');
     const sendChatbotMessageBtn = document.getElementById('send-chatbot-message');
+    
 
     // ---------------------------------------------------
     // 2. وظائف تبديل اللغة (Language Switching)

@@ -312,7 +312,6 @@ body.light-mode .icon-dark-mode {
     display: block; /* أظهر صورة الوضع الداكن (القمر) في الوضع الفاتح */
 }
 
-
 .btn-signing {
     background: linear-gradient(135deg, var(--primary-color), var(--neutral-color)); /* Subtle gradient */
     color: var(--primary-text-color);
@@ -1189,6 +1188,7 @@ body.light-mode .animate-border-magic:hover::after {
         gap: 1rem;
     }
 
+    /* Default mobile header layout (LTR) */
     header h1,
     header nav,
     header .header-actions {
@@ -1200,18 +1200,66 @@ body.light-mode .animate-border-magic:hover::after {
         text-align: center;
     }
 
-    header h1 { margin-bottom: 0.5rem; }
+    /* Override for RTL mobile header - keep proper RTL structure */
+    body.ar header {
+        flex-direction: column; /* Keep column direction for mobile */
+        align-items: center;
+    }
+
+    body.ar header h1,
+    body.ar header nav,
+    body.ar header .header-actions {
+        order: unset !important; /* Reset order for mobile stacking */
+        width: 100%;
+        text-align: center; /* Center everything in mobile */
+        justify-content: center;
+    }
+
+    /* Ensure RTL specific padding/margin is reset for mobile */
+    body.ar header h1 {
+        padding-left: unset !important;
+        padding-right: unset !important;
+        margin-bottom: 0.5rem;
+    }
+
+    header h1 { 
+        margin-bottom: 0.5rem; 
+        font-size: 2.5rem;
+    }
+    
     nav {
         flex-wrap: wrap;
         margin-top: 0.5rem;
         margin-bottom: 1rem;
         flex-grow: unset;
         justify-content: center;
+        gap: 1rem; /* Ensure proper spacing between nav items */
     }
+
+    /* Ensure nav links are clickable and properly spaced in RTL */
+    body.ar nav {
+        justify-content: center;
+        flex-direction: row; /* Keep horizontal layout for nav items */
+    }
+
+    body.ar nav a {
+        margin: 0 0.5rem; /* Add horizontal margin for proper spacing */
+        padding: 0.5rem; /* Ensure clickable area */
+        display: inline-block; /* Ensure proper display */
+    }
+
     .header-actions {
         margin-top: 0.5rem;
         flex-wrap: wrap;
         justify-content: center;
+        gap: 1rem; /* Add gap for header actions */
+    }
+
+    /* Ensure language selector works properly in RTL mobile */
+    body.ar .lang-select {
+        padding: 0.5rem 1.8rem 0.5rem 1rem; /* Reset padding for mobile */
+        background-position: right 0.8rem center; /* Reset background position */
+        text-align: center;
     }
 
     .content {
@@ -1239,9 +1287,6 @@ body.light-mode .animate-border-magic:hover::after {
         max-width: 350px;
     }
 
-    /* .layer-blur { Removed as it was not in HTML and seemed to be a leftover/conflicting style } */
-
-
     .section-title {
         font-size: 2.5rem;
         margin-top: 3.5rem;
@@ -1252,8 +1297,8 @@ body.light-mode .animate-border-magic:hover::after {
     }
     .vmv-item, .feature-item, .value-card, .team-member, .resource-item, .doc-item, .contact-item {
         padding: 1.2rem;
-        max-width: 90%; /* Constrain width of stacked cards */
-        margin: 0 auto; /* Center stacked cards */
+        max-width: 90%;
+        margin: 0 auto;
     }
     .vmv-item h2, .feature-item h3, .value-card h3, .team-member h3, .resource-item h3, .doc-item h3, .contact-item h3 {
         font-size: 1.4rem;
@@ -1283,16 +1328,16 @@ body.light-mode .animate-border-magic:hover::after {
         padding: 0.8rem 2rem;
         font-size: 0.95rem;
     }
-    .social-media-links a { /* Adjusted for small screens */
+    .social-media-links a {
         font-size: 2.2rem;
         margin: 0 0.8rem;
     }
-    .chatbot-modal { /* Smaller modal for mobile */
+    .chatbot-modal {
         width: 90%;
         height: 80%;
         bottom: 20px;
         right: 5%;
-        left: 5%; /* Center horizontally */
+        left: 5%;
     }
     body.ar .chatbot-modal {
         left: 5%;
