@@ -1,0 +1,436 @@
+/* Welcome Message Styles (in-flow) */
+.welcome-message {
+    /* Layout & Box Model */
+    margin: 80px auto; /* More vertical spacing for breathing room */
+    padding: 60px 50px; /* Generous padding, slightly more on sides for better text flow */
+    width: 90%; /* Responsive width */
+    max-width: 920px; /* Optimal max-width for content readability */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+
+    /* Appearance */
+    background-color: var(--card-bg); /* Consistent with your modal/card background */
+    border-radius: 18px; /* Slightly less rounded for a crisper modern look */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Even softer, more subtle shadow */
+    border: 1px solid var(--card-border); /* Subtle, elegant border */
+    backdrop-filter: blur(12px) saturate(1.4); /* Even lighter, more refined glassmorphism */
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    text-align: center; /* Center text content */
+    color: var(--text-color); /* Inherit text color from theme */
+    overflow: hidden; /* Ensures content stays within rounded borders */
+    position: relative; /* For potential pseudo-elements or inner animations */
+
+    /* Animation initial state */
+    opacity: 0;
+    transform: translateY(20px); /* Starts slightly below its final position */
+    animation: welcome-slide-in 0.9s forwards ease-out; /* Smoother, slightly slower slide-in */
+}
+
+/* Light mode adjustments for welcome message */
+body.light-mode .welcome-message {
+    background-color: var(--card-bg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Lighter shadow in light mode */
+    border: 1px solid var(--card-border);
+}
+
+/* Heading Styling */
+.welcome-message h2 {
+    font-family: 'YourModernFont', sans-serif; /* Use a modern, clean font if you have one */
+    font-size: clamp(2.4em, 6vw, 3.8em); /* Increased min/max font size for impact */
+    color: var(--primary-color); /* Primary color for distinction */
+    margin-bottom: 25px; /* More space below heading */
+    font-weight: 800; /* Extra bold for impact */
+    letter-spacing: -0.02em; /* Tighter letter spacing for a modern, compact look */
+    text-shadow: none; /* Removed heavy text shadow for a cleaner look */
+    line-height: 1.1; /* Tighter line height for the heading */
+    /* Remove white-space, overflow, text-overflow from h2 - it will now wrap naturally */
+}
+
+/* Specific styling for the 'Welcome to' part */
+.welcome-message h2 .welcome-prefix {
+    font-size: 0.7em; /* Make "Welcome to" slightly smaller */
+    font-weight: 600; /* Less bold than the company name */
+    display: block; /* Force it to its own line */
+    margin-bottom: 5px; /* Small space between prefix and company name */
+    color: var(--text-color); /* Use general text color or a softer primary */
+    opacity: 0.8; /* Slight fade for subtle effect */
+}
+
+/* Specific styling for the 'Lineer Global' part */
+.welcome-message h2 .company-name {
+    display: block; /* Ensure it's on its own line */
+    font-size: 1em; /* Keep it at the main h2 size */
+    font-weight: 800; /* Maintain strong impact */
+    color: var(--accent-color); /* Make the company name pop with accent color */
+    /* You could add a subtle text shadow here if you like, e.g., text-shadow: 0 2px 5px rgba(0,0,0,0.1); */
+}
+
+
+/* Paragraph Styling */
+.welcome-message p {
+    font-family: 'YourTextFont', sans-serif; /* Use a readable, modern font */
+    font-size: clamp(1em, 1.6vw, 1.05em); /* Slightly smaller, more precise font size */
+    line-height: 1.85; /* Increased line height for better readability of long sentences */
+    margin-bottom: 22px; /* Consistent spacing between paragraphs */
+    color: var(--text-color); /* General text color */
+    max-width: 95%; /* Allow paragraphs to use more width */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify; /* **Reverted to justify for longer texts** - provides a cleaner block */
+    /* If you prefer centered, change this to text-align: center; */
+}
+
+/* List Styling within Welcome Message */
+.welcome-message ul {
+    list-style: none; /* Remove default list style */
+    padding: 0;
+    margin: 40px auto; /* More spacing around the list */
+    max-width: 850px; /* Max width for list items */
+    text-align: left; /* Align list items to the left */
+}
+
+.welcome-message ul li {
+    font-family: 'YourTextFont', sans-serif; /* Consistent font for lists */
+    font-size: clamp(1em, 1.5vw, 1.02em); /* Slightly refined font size */
+    line-height: 1.7; /* Good line height for list items */
+    margin-bottom: 14px; /* Consistent spacing between list items */
+    padding-left: 28px; /* Space for custom bullet */
+    position: relative;
+    color: var(--text-color);
+}
+
+.welcome-message ul li::before {
+    content: '•'; /* Custom bullet point */
+    color: var(--accent-color); /* Accent color for bullets */
+    font-size: 1.3em; /* Slightly smaller bullet */
+    position: absolute;
+    left: 0;
+    top: 0px; /* Adjust vertical position */
+    font-weight: bold;
+    line-height: 1; /* Ensure bullet aligns with text */
+}
+
+/* Last paragraph (or any call to action) */
+.welcome-message p:last-of-type {
+    margin-top: 35px; /* Add more space before the final concluding paragraph */
+    margin-bottom: 0;
+    font-weight: 600; /* Slightly bolder for emphasis */
+    color: var(--primary-color); /* Emphasize with primary color */
+}
+
+/* Animation for the Welcome Message */
+@keyframes welcome-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RTL adjustments for welcome message */
+body.ar .welcome-message h2 {
+    /* For RTL, the welcome prefix should probably still appear above */
+    flex-direction: column; /* If using flex, ensure it's column */
+    align-items: center; /* Center horizontally */
+}
+
+body.ar .welcome-message h2 .welcome-prefix {
+    /* RTL specific adjustments for prefix */
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0; /* Reset margins */
+}
+
+body.ar .welcome-message h2 .company-name {
+    /* RTL specific adjustments for company name */
+    text-align: center;
+}
+
+body.ar .welcome-message p {
+    direction: rtl; /* Ensure text flows right-to-left */
+    text-align: justify; /* Justified text for RTL */
+}
+
+body.ar .welcome-message ul {
+    text-align: right; /* Align list to the right in RTL */
+}
+
+body.ar .welcome-message ul li {
+    padding-right: 28px; /* Space for custom bullet on right */
+    padding-left: 0; /* Remove left padding */
+}
+
+body.ar .welcome-message ul li::before {
+    left: auto;
+    right: 0; /* Position custom bullet to the right */
+}
+
+
+
+/* Biography Modal Styles */
+.bio-modal {
+    display: none; /* Crucial: Hidden by default, controlled by JavaScript */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Allow vertical scrolling if content is long */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background-color: rgba(0, 0, 0, 0.8); /* Darker, more immersive overlay */
+    /* When active, JavaScript will set display: flex; for centering */
+    justify-content: center;
+    align-items: center;
+    padding: 25px; /* More padding around the modal on smaller screens */
+    transition: background-color 0.4s ease; /* Smoother overlay transition */
+}
+
+/* FIX: Add this rule to your main CSS file or where your body styles are */
+/* When the modal is open, prevent body scrolling to keep modal centered */
+body.modal-open {
+    overflow: hidden;
+    /* Optional: If you see a jump/shift, you might need to compensate for scrollbar width */
+    /* padding-right: 17px; */
+}
+
+
+/* Pseudo-element for the animated glowing smoke *behind* the modal content */
+.bio-modal::before {
+    content: '';
+    position: absolute;
+    /* Position it relative to the modal itself, but make it appear around the content */
+    top: 50%;
+    left: 50%;
+    width: 900px; /* Slightly larger than max-width of modal-content (850px + padding + border) */
+    height: 100%; /* Adjust height to cover the modal content adequately */
+    max-height: 95vh; /* Prevent it from getting too tall */
+    border-radius: 30px; /* Slightly more rounded than content for a softer glow */
+    /* Radial gradient to create a softer, more centralized "smoke" effect */
+    background: radial-gradient(
+        circle at left,
+        color-mix(in srgb, var(--accent-color) 70%, transparent) 75%, /* Darker Blue */
+        transparent 100%
+    );
+    animation: smokeGlow 12s infinite ease-in-out alternate; /* Slower, oscillating animation */
+    z-index: -1; /* Place it *behind* the modal content */
+    filter: blur(80px); /* Much stronger blur for a truly diffused, smoky glow */
+    opacity: 0.4; /* Very subtle opacity for a faint smoke */
+    transform: translate(-50%, -50%) scale(1); /* Centering trick, initial scale */
+    pointer-events: none; /* Ensure clicks pass through to the overlay */
+    transition: background 0.6s ease, opacity 0.6s ease, filter 0.6s ease; /* Smooth transition for theme change */
+}
+
+body.light-mode .bio-modal::before {
+    filter: blur(60px); /* Slightly less blur in light mode for clarity */
+    opacity: 0.3; /* Even more subtle in light mode */
+}
+
+.bio-modal-content {
+    background-color: var(--card-bg); /* Consistent with your card background */
+    margin: auto; /* Fallback for centering */
+    padding: 35px; /* Generous padding */
+    border-radius: 20px; /* Even more rounded, softer edges */
+    box-shadow: 0 15px 40px var(--shadow-dark); /* Deeper shadow */
+    width: 90%;
+    max-width: 850px; /* Slightly wider max-width for more content space */
+    position: relative; /* Essential for its own internal content */
+    /* Updated initial state for a subtle "pop-in" effect */
+    transform: translateY(-20px) scale(0.98);
+    opacity: 0;
+    /* Updated animation for a smoother, slightly more impactful entry */
+    animation: modal-open 0.5s forwards cubic-bezier(0.23, 1, 0.32, 1.2); /* Slower, with a slight overshoot */
+    color: var(--text-color);
+    backdrop-filter: blur(20px) saturate(2); /* Stronger, more elegant glassmorphism */
+    -webkit-backdrop-filter: blur(20px) saturate(2);
+    border: 1px solid var(--card-border); /* Re-added your subtle, consistent border here */
+    transform-origin: center center; /* Ensures scale animates from center */
+    z-index: 0; /* Ensure content is above the pseudo-element */
+}
+
+body.light-mode .bio-modal-content {
+    background-color: var(--card-bg);
+    box-shadow: 0 12px 35px var(--shadow-dark); /* Adjusted shadow for light mode */
+}
+
+/* Header Styling */
+.bio-modal-header {
+    display: flex;
+    justify-content: center; /* Centered horizontally */
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+    position: relative; /* For positioning the absolute close button */
+}
+
+.bio-modal-header h3 {
+    font-size: 2em;
+    color: var(--primary-color);
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 3px 8px var(--shadow-dark);
+    letter-spacing: -0.01em;
+    text-align: center; /* Explicitly centered for robustness */
+    flex-grow: 1; /* Allows the title to take available space and center */
+}
+
+.close-bio-btn {
+    background: none;
+    border: none;
+    font-size: 2.2em;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Spring effect */
+    padding: 8px; /* Larger hit area */
+    border-radius: 50%;
+    display: flex; /* Ensure centering of icon */
+    align-items: center;
+    justify-content: center;
+    position: absolute; /* Position absolutely to break it out of flex flow */
+    right: 0; /* Position to the right in LTR */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    z-index: 2; /* Ensure it's above header content */
+}
+
+.close-bio-btn:hover {
+    color: var(--accent-color);
+    transform: translateY(-50%) rotate(180deg) scale(1.2); /* Maintain vertical centering while rotating */
+}
+
+/* Body Content Styling */
+.bio-modal-body p {
+    margin-bottom: 18px;
+    line-height: 1.8;
+    font-size: 1.05em;
+    text-align: justify;
+}
+
+.bio-modal-body ul {
+    list-style: disc inside;
+    padding-left: 25px;
+    margin-bottom: 18px;
+}
+
+.bio-modal-body ul li {
+    margin-bottom: 10px;
+}
+
+/* Modal Open Animation */
+@keyframes modal-open {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.98); /* Starts slightly above and slightly smaller */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Modal Close Animation */
+.bio-modal.closing .bio-modal-content {
+    /* Updated animation for a softer, more graceful exit */
+    animation: modal-close 0.4s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045); /* Quicker ease-out, drops slightly */
+}
+
+@keyframes modal-close {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98); /* Fades out as it drops slightly */
+    }
+}
+
+/* Animation for the smoky glow */
+@keyframes smokeGlow {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.5; } /* Subtle pulse */
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* RTL adjustments for biography modal */
+body.ar .bio-modal-body p {
+    text-align: right;
+}
+
+body.ar .bio-modal-body ul {
+    padding-right: 25px;
+    padding-left: 0;
+}
+
+/* Specific RTL adjustments for modal header and close button */
+body.ar .bio-modal-header {
+    flex-direction: row; /* Keep the title centered */
+}
+
+body.ar .close-bio-btn {
+    left: 0; /* Position to the left in RTL */
+    right: auto; /* Reset right property */
+    transform: translateY(-50%) rotate(-180deg) scale(1.2); /* Adjust rotation direction for RTL */
+}
+
+body.ar .close-bio-btn:hover {
+    transform: translateY(-50%) rotate(-270deg) scale(1.2); /* Adjust hover rotation for RTL */
+}
+
+
+
+/* Styles for form messages (success/error) */
+.form-messages {
+    margin-top: 25px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0; /* Hidden by default */
+    transform: translateY(10px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.form-messages.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-messages.success {
+    background-color: var(--success-bg); /* Define this variable in your root colors */
+    color: var(--success-color); /* Define this variable in your root colors */
+    border: 1px solid var(--success-border); /* Define this variable in your root colors */
+}
+
+.form-messages.error {
+    background-color: var(--error-bg); /* Define this variable in your root colors */
+    color: var(--error-color); /* Define this variable in your root colors */
+    border: 1px solid var(--error-border); /* Define this variable in your root colors */
+}
+
+/* Suggested CSS Variables for your :root in style.css for these messages */
+:root {
+    /* ... existing variables ... */
+    --success-bg: rgba(76, 175, 80, 0.2);   /* Light green for success */
+    --success-color: #4CAF50;              /* Darker green text */
+    --success-border: #4CAF50;
+
+    --error-bg: rgba(244, 67, 54, 0.2);     /* Light red for error */
+    --error-color: #F44336;                /* Darker red text */
+    --error-border: #F44336;
+}
+
+body.light-mode {
+    /* ... existing light mode variables ... */
+    --success-bg: rgba(200, 230, 201, 0.8);
+    --success-color: #388E3C;
+    --success-border: #388E3C;
+
+    --error-bg: rgba(255, 205, 195, 0.8);
+    --error-color: #D32F2F;
+    --error-border: #D32F2F;
+}

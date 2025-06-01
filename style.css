@@ -23,23 +23,23 @@
 }
 
 body.light-mode {
-    --background-color: #f0f2f5; /* Lighter background */
-    --text-color: #333; /* Darker text */
-    --primary-color: #607D8B; /* Darker grey for light mode button */
-    --primary-text-color: white;
-    --secondary-color: #388E3C; /* Darker green */
-    --accent-color: #1976D2; /* Darker blue */
-    --neutral-color: #90A4AE; /* Darker silver-grey */
-    --hover-color: #424242; /* Darker hover */
-    --gradient-opacity: 0.2; /* Less intense gradient in light mode */
-    --blur-shadow-color: rgba(0, 0, 0, 0.1); /* Softer blur shadow */
-    --header-bg: rgba(255, 255, 255, 0.7); /* Semi-transparent light header */
-    --card-bg: rgba(255, 255, 255, 0.85); /* Lighter card background */
-    --card-border: rgba(0, 0, 0, 0.1); /* Subtle card border */
+    --background-color: #f0f2f5 !important; /* Lighter background */
+    --text-color: #333 !important; /* Darker text */
+    --primary-color: #607D8B !important; /* Darker grey for light mode button */
+    --primary-text-color: white !important;
+    --secondary-color: #388E3C !important; /* Darker green */
+    --accent-color: #1976D2 !important; /* Darker blue */
+    --neutral-color: #90A4AE !important; /* Darker silver-grey */
+    --hover-color: #424242 !important; /* Darker hover */
+    --gradient-opacity: 0.2 !important; /* Less intense gradient in light mode */
+    --blur-shadow-color: rgba(0, 0, 0, 0.1) !important; /* Softer blur shadow */
+    --header-bg: rgba(255, 255, 255, 0.7) !important; /* Semi-transparent light header */
+    --card-bg: rgba(255, 255, 255, 0.85) !important; /* Lighter card background */
+    --card-border: rgba(0, 0, 0, 0.1) !important; /* Subtle card border */
 
-    --shadow-light: rgba(255, 255, 255, 0.8);
-    --shadow-dark: rgba(0, 0, 0, 0.15);
-    --inner-shadow: rgba(0, 0, 0, 0.05) inset;
+    --shadow-light: rgba(255, 255, 255, 0.8) !important;
+    --shadow-dark: rgba(0, 0, 0, 0.15) !important;
+    --inner-shadow: rgba(0, 0, 0, 0.05) inset !important;
 }
 
 /* Universal Reset */
@@ -50,14 +50,26 @@ body.light-mode {
 }
 
 body {
+    will-change: background-color, color;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     min-height: 100vh;
     line-height: 1.6;
-    transition: background-color 0.6s ease, color 0.6s ease; /* Smoother theme transition */
+        transition: 
+        background-color 0.6s ease, 
+        color 0.6s ease,
+        --background-color 0.6s ease,
+        --text-color 0.6s ease,
+        --primary-color 0.6s ease,
+        --header-bg 0.6s ease,
+        --card-bg 0.6s ease; /* Smoother theme transition */
     position: relative;
     overflow-x: hidden; /* Prevent horizontal scroll from background animation */
+}
+
+header, .card, nav {
+    will-change: background-color, color, border-color;
 }
 
 /* Specific adjustments for RTL (Arabic) - Font change added here */
@@ -162,13 +174,19 @@ header {
     position: sticky;
     top: 0;
     width: 100%;
-    background-color: var(--header-bg);
+    background-color: var(--header-bg) !important;
+    color: var(--text-color) !important;
     backdrop-filter: blur(15px) saturate(1.8); /* Enhanced glassmorphism */
     -webkit-backdrop-filter: blur(15px) saturate(1.8);
     z-index: 999;
     transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
     box-shadow: 0 4px 20px var(--shadow-dark); /* Deeper shadow */
     border-bottom: 1px solid var(--card-border); /* Subtle separation */
+}
+
+.card {
+    background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
 }
 
 header h1 {
@@ -919,38 +937,38 @@ body.light-mode .animate-border-magic:hover::after {
 .chatbot-button {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    /* الموضع الأفقي سيتم تحديده لاحقًا بناءً على الاتجاه */
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color)); /* Vibrant gradient */
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color)); /* تدرج لوني حيوي */
     color: white;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px; /* Larger icon */
+    font-size: 28px; /* حجم أيقونة أكبر */
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Deep shadow */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* ظل عميق */
     transition: all 0.3s ease;
-    z-index: 1000; /* Ensure it's on top */
-    transform: scale(0); /* Start hidden for animation */
-    animation: popIn 0.5s ease-out forwards 2s; /* Pop in animation after a delay */
-    outline: none; /* Remove outline on click */
+    z-index: 1000; /* لضمان ظهوره في الأعلى */
+    transform: scale(0); /* يبدأ مخفيًا للتحريك */
+    animation: popIn 0.5s ease-out forwards 2s; /* تحريك الظهور بعد تأخير */
+    outline: none; /* إزالة الحدود عند النقر */
 }
 
 .chatbot-button:hover {
-    transform: scale(1.15) translateY(-5px) rotate(5deg); /* More dynamic hover */
-    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color)); /* Reverse gradient */
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); /* Even deeper shadow */
+    transform: scale(1.15) translateY(-5px) rotate(5deg); /* تأثير تحليق أكثر ديناميكية */
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color)); /* عكس التدرج */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); /* ظل أعمق */
 }
 
-/* Tooltip for Chatbot Button */
+/* Tooltip (تلميح زر الشات) */
 .chatbot-tooltip {
     position: absolute;
-    bottom: 100%;
-    right: 50%;
-    transform: translateX(50%) translateY(-10px);
+    bottom: 100%; /* فوق الزر */
+    /* الموضع الأفقي سيتم تحديده لاحقًا بناءً على الاتجاه */
+    transform: translateY(-10px); /* رفع التلميح قليلًا */
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 0.5rem 1rem;
@@ -958,49 +976,51 @@ body.light-mode .animate-border-magic:hover::after {
     font-size: 0.9rem;
     white-space: nowrap;
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none; /* لمنع التفاعل عندما يكون مخفيًا */
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1001; /* Above button */
+    z-index: 1001; /* فوق الزر */
 }
 
+/* موضع التلميح عند التحليق */
 .chatbot-button:hover .chatbot-tooltip {
     opacity: 1;
-    transform: translateX(50%) translateY(-20px); /* Lift tooltip slightly */
+    transform: translateY(-20px); /* رفع التلميح أكثر قليلًا عند التحليق */
 }
 
+/* تحريك ظهور زر الشات */
 @keyframes popIn {
     0% { transform: scale(0); opacity: 0; }
     80% { transform: scale(1.1); opacity: 1; }
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Chatbot Modal Styling */
+/* --- Chatbot Modal (نافذة الشات) --- */
 .chatbot-modal {
     position: fixed;
-    bottom: 100px; /* Above the chatbot button */
-    right: 30px;
-    width: 350px; /* Fixed width for the modal */
-    height: 450px; /* Fixed height */
-    background-color: var(--card-bg);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px var(--shadow-dark);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(15px) saturate(1.8);
-    -webkit-backdrop-filter: blur(15px) saturate(1.8);
+    bottom: 100px; /* فوق زر الشات بمسافة */
+    /* الموضع الأفقي سيتم تحديده لاحقًا بناءً على الاتجاه */
+    width: 350px; /* عرض ثابت للنافذة */
+    height: 450px; /* ارتفاع ثابت */
+    background-color: var(--card-bg); /* لون خلفية من المتغيرات */
+    border-radius: 15px; /* زوايا مستديرة */
+    box-shadow: 0 10px 30px var(--shadow-dark); /* ظل جذاب */
+    border: 1px solid var(--card-border); /* حدود رقيقة */
+    backdrop-filter: blur(15px) saturate(1.8); /* تأثير ضبابي للخلفية */
+    -webkit-backdrop-filter: blur(15px) saturate(1.8); /* دعم سفاري */
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* For rounded corners */
+    overflow: hidden; /* لإخفاء أي محتوى زائد عند الزوايا المستديرة */
     z-index: 1000;
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Hide for accessibility until active */
-    transform: translateY(20px) scale(0.95);
+    opacity: 0; /* يبدأ مخفيًا */
+    visibility: hidden; /* إخفاء لتسهيل الوصول حتى يصبح نشطًا */
+    transform: translateY(20px) scale(0.95); /* تحريك عند الظهور */
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
 }
 
 .chatbot-modal.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1); /* التحريك للظهور الكامل */
 }
 
 .chatbot-content {
@@ -1009,12 +1029,13 @@ body.light-mode .animate-border-magic:hover::after {
     height: 100%;
 }
 
+/* رأس المحادثة (Header) */
 .chatbot-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.2rem;
-    background-color: rgba(0, 0, 0, 0.3); /* Slightly darker header */
+    background-color: rgba(0, 0, 0, 0.3); /* خلفية رأس داكنة قليلًا */
     border-bottom: 1px solid var(--card-border);
     color: var(--text-color);
 }
@@ -1038,45 +1059,48 @@ body.light-mode .animate-border-magic:hover::after {
     color: var(--accent-color);
 }
 
+/* منطقة الرسائل */
 .chatbot-messages {
     flex-grow: 1;
     padding: 1.2rem;
-    overflow-y: auto; /* Scrollable message area */
+    overflow-y: auto; /* منطقة رسائل قابلة للتمرير */
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    background-color: rgba(0, 0, 0, 0.1); /* Slightly lighter background for messages */
+    background-color: rgba(0, 0, 0, 0.1); /* خلفية أفتح قليلًا للرسائل */
     border-bottom: 1px solid var(--card-border);
 }
 
 .message {
     padding: 0.8rem 1rem;
     border-radius: 12px;
-    max-width: 85%; /* Limit message width */
+    max-width: 85%; /* تحديد عرض الرسالة */
     font-size: 0.95rem;
     line-height: 1.4;
-    word-wrap: break-word; /* Ensure long words break */
+    word-wrap: break-word; /* لضمان كسر الكلمات الطويلة */
 }
 
+/* رسائل المستخدم والذكاء الصناعي */
 .user-message {
-    background-color: var(--accent-color);
+    background-color: var(--accent-color); /* لون مميز لرسائل المستخدم */
     color: white;
-    align-self: flex-end; /* Align user messages to the right */
-    border-bottom-right-radius: 4px; /* Pointy corner for user */
+    /* المحاذاة والزوايا سيتم ضبطها بناءً على الاتجاه */
+    border-bottom-right-radius: 4px; /* زاوية مدببة لرسالة المستخدم */
 }
 
 .ai-message {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* لون لرسائل الذكاء الصناعي */
     color: var(--primary-text-color);
-    align-self: flex-start; /* Align AI messages to the left */
-    border-bottom-left-radius: 4px; /* Pointy corner for AI */
+    /* المحاذاة والزوايا سيتم ضبطها بناءً على الاتجاه */
+    border-bottom-left-radius: 4px; /* زاوية مدببة لرسالة الذكاء الصناعي */
 }
 
+/* منطقة إدخال الرسائل */
 .chatbot-input-area {
     display: flex;
     padding: 1rem;
     gap: 0.8rem;
-    background-color: rgba(0, 0, 0, 0.3); /* Match header background */
+    background-color: rgba(0, 0, 0, 0.3); /* مطابقة لخلفية الرأس */
     border-top: 1px solid var(--card-border);
 }
 
@@ -1084,8 +1108,8 @@ body.light-mode .animate-border-magic:hover::after {
     flex-grow: 1;
     padding: 0.8rem 1rem;
     border: 1px solid var(--primary-color);
-    border-radius: 20px; /* Rounded input field */
-    background-color: transparent;
+    border-radius: 20px; /* حقل إدخال دائري */
+    background-color: var(--input-bg); /* خلفية حقل الإدخال */
     color: var(--text-color);
     font-size: 0.95rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -1101,13 +1125,13 @@ body.light-mode .animate-border-magic:hover::after {
     background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
     color: white;
     border: none;
-    border-radius: 50%; /* Circular button */
+    border-radius: 50%; /* زر دائري */
     width: 45px;
     height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem; /* Icon size */
+    font-size: 1.5rem; /* حجم أيقونة الإرسال */
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
@@ -1116,6 +1140,93 @@ body.light-mode .animate-border-magic:hover::after {
 .send-chatbot-btn:hover {
     transform: scale(1.1);
     background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+}
+
+/* --- الأنماط الخاصة بالاتجاه (LTR و RTL) --- */
+
+/* للغة الإنجليزية والتركية (LTR - من اليسار لليمين) */
+html[dir="ltr"] .chatbot-button {
+    right: 30px; /* الزر على اليمين */
+}
+
+html[dir="rtl"] .chatbot-header {
+    flex-direction: row-reverse; /* هذا سيعكس ترتيب العناصر في الهيدر */
+}
+
+
+html[dir="ltr"] .chatbot-button:hover .chatbot-tooltip {
+    transform: translateX(50%) translateY(-20px);
+}
+
+html[dir="ltr"] .chatbot-modal {
+    right: 30px; /* النافذة محاذية للزر على اليمين */
+}
+
+html[dir="ltr"] .user-message {
+    align-self: flex-end; /* رسائل المستخدم محاذية لليمين */
+}
+
+html[dir="ltr"] .ai-message {
+    align-self: flex-start; /* رسائل الذكاء الصناعي محاذية لليسار */
+}
+
+html[dir="ltr"] .chatbot-input-area input {
+    margin-right: 0.8rem; /* مسافة قبل زر الإرسال */
+}
+
+/* للغة العربية (RTL - من اليمين لليسار) */
+html[dir="rtl"] .chatbot-button {
+    left: 30px; /* الزر على اليسار */
+    right: auto; /* إلغاء أي إعداد 'right' */
+}
+
+html[dir="rtl"] .chatbot-tooltip {
+    left: 50%; /* توسيط التلميح على اليسار */
+    transform: translateX(-50%) translateY(-10px); /* تعديل الموضع الأفقي */
+}
+
+html[dir="rtl"] .chatbot-button:hover .chatbot-tooltip {
+    transform: translateX(-50%) translateY(-20px);
+}
+
+html[dir="rtl"] .chatbot-modal {
+    left: 30px; /* النافذة محاذية للزر على اليسار */
+    right: auto; /* إلغاء أي إعداد 'right' */
+}
+
+html[dir="rtl"] .chatbot-messages {
+    align-items: flex-start; /* محاذاة كل الرسائل لبداية الصندوق في RTL */
+}
+
+html[dir="rtl"] .user-message {
+    align-self: flex-start; /* رسائل المستخدم محاذية لليسار في RTL */
+    border-bottom-left-radius: 4px; /* زاوية مدببة لرسالة المستخدم في RTL */
+    border-bottom-right-radius: 12px; /* إزالة الزاوية المدببة من اليمين */
+}
+
+html[dir="rtl"] .ai-message {
+    align-self: flex-end; /* رسائل الذكاء الصناعي محاذية لليمين في RTL */
+    border-bottom-right-radius: 4px; /* زاوية مدببة لرسالة الذكاء الصناعي في RTL */
+    border-bottom-left-radius: 12px; /* إزالة الزاوية المدببة من اليسار */
+}
+
+html[dir="rtl"] .chatbot-input-area {
+    flex-direction: row-reverse; /* عكس ترتيب حقل الإدخال والزر */
+}
+
+html[dir="rtl"] .chatbot-input-area input {
+    margin-left: 0.8rem; /* مسافة بعد زر الإرسال في RTL */
+    margin-right: 0; /* إزالة الهامش الأيمن */
+    text-align: right; /* محاذاة نص الإدخال لليمين */
+}
+
+html[dir="rtl"] .chatbot-header {
+    flex-direction: row-reverse; /* عكس ترتيب عناصر رأس الشات */
+}
+
+html[dir="rtl"] .chatbot-header h3 {
+    text-align: right; /* العنوان لليمين */
+    order: 2; /* العنوان يأتي بعد زر الإغلاق (بعد عكس الاتجاه) */
 }
 
 /* Responsive Design - Enhanced */
@@ -1345,6 +1456,8 @@ body.light-mode .animate-border-magic:hover::after {
     }
 }
 
+
+
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.9rem;
@@ -1376,3 +1489,4 @@ body.light-mode .animate-border-magic:hover::after {
         margin: 0 0.6rem;
     }
 }
+

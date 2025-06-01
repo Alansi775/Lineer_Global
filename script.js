@@ -11,7 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotMessages = document.querySelector('.chatbot-messages');
     const chatbotInput = document.getElementById('chatbot-input');
     const sendChatbotMessageBtn = document.getElementById('send-chatbot-message');
-    
+
+    // New elements for Dr. Esaam Moqbel's biography modal
+    const esaamMoqbelCard = document.querySelector('#team .team-member:first-child');
+    const esaamBioModal = document.getElementById('esaam-bio-modal');
+    const closeEsaamBioButton = document.getElementById('close-esaam-bio');
 
     // ---------------------------------------------------
     // 2. وظائف تبديل اللغة (Language Switching)
@@ -22,8 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
         translatableElements.forEach(element => {
             const translation = element.getAttribute(`data-${lang}`);
             if (translation) {
-                const targetElement = element.querySelector('span') || element;
-                targetElement.textContent = translation;
+                // Check if the element has a span child, otherwise update its own textContent
+                const targetElement = element.querySelector('span');
+                if (targetElement) {
+                    targetElement.textContent = translation;
+                } else {
+                    element.textContent = translation;
+                }
             }
         });
 
@@ -34,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Specific updates for various dynamic elements
         const chatbotTooltip = document.querySelector('.chatbot-tooltip');
         if (chatbotTooltip) {
             chatbotTooltip.textContent = chatbotTooltip.getAttribute(`data-${lang}`);
@@ -50,26 +60,43 @@ document.addEventListener('DOMContentLoaded', () => {
         if (initialAiMessageElement) {
              initialAiMessageElement.textContent = initialAiMessageElement.getAttribute(`data-${lang}-initial-message`);
         }
-        const mainTitle = document.getElementById('main-title');
-        if (mainTitle) {
-            mainTitle.textContent = mainTitle.getAttribute(`data-${lang}`);
+        
+        // Update welcoming message header and content
+        const welcomeMessageHeader = document.querySelector('.welcome-message h2');
+        if (welcomeMessageHeader) {
+            welcomeMessageHeader.textContent = welcomeMessageHeader.getAttribute(`data-${lang}`);
         }
-        const heroDescription = document.querySelector('.hero-section .description');
-        if (heroDescription) {
-            heroDescription.textContent = heroDescription.getAttribute(`data-${lang}`);
-        }
+        document.querySelectorAll('.welcome-message p, .welcome-message li').forEach(el => {
+            if (el.hasAttribute(`data-${lang}`)) {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            }
+        });
 
+
+        // Update Dr. Esaam Bio Modal title and content
+        const esaamBioModalTitle = document.querySelector('#esaam-bio-modal .bio-modal-header h3');
+        if (esaamBioModalTitle) {
+            esaamBioModalTitle.textContent = esaamBioModalTitle.getAttribute(`data-${lang}`);
+        }
+        document.querySelectorAll('#esaam-bio-modal .bio-modal-body p, #esaam-bio-modal .bio-modal-body li').forEach(el => {
+            if (el.hasAttribute(`data-${lang}`)) {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            }
+        });
+        
         if (lang === 'ar') {
             body.classList.add('ar');
+            document.documentElement.dir = 'rtl';
         } else {
             body.classList.remove('ar');
+            document.documentElement.dir = 'ltr';
         }
 
-        // Store in memory instead of localStorage
-        window.selectedLang = lang;
+        // Store in localStorage for persistence
+        localStorage.setItem('selectedLang', lang);
     };
 
-    const storedLang = window.selectedLang || 'en';
+    const storedLang = localStorage.getItem('selectedLang') || 'en';
     languageSwitcher.value = storedLang;
     updateLanguage(storedLang);
 
@@ -81,25 +108,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. وظائف تبديل الثيم (Theme Toggling)
     // ---------------------------------------------------
     const applyTheme = (theme) => {
-        if (theme === 'light-mode') {
+        const body = document.body;
+        body.classList.remove('light-mode', 'dark-mode');
+        
+        if (theme === 'light') {
             body.classList.add('light-mode');
-            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
         } else {
             body.classList.add('dark-mode');
-            body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
         }
-        window.theme = theme;
+        
+        // إعادة تحميل المتغيرات CSS بالقوة
+        const root = document.documentElement;
+        root.style.setProperty('--force-reload', Date.now());
     };
 
-    const storedTheme = window.theme || 'dark-mode';
+    const storedTheme = localStorage.getItem('theme') || 'dark-mode';
     applyTheme(storedTheme);
 
     themeToggle.addEventListener('click', () => {
-        if (body.classList.contains('light-mode')) {
-            applyTheme('dark-mode');
-        } else {
-            applyTheme('light-mode');
-        }
+        const currentTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+        applyTheme(currentTheme);
+        
+        // إعادة تطبيق التصميم على العناصر الحساسة
+        document.querySelectorAll('header, nav, .card').forEach(el => {
+            el.style.display = 'none';
+            el.offsetHeight; // Trigger reflow
+            el.style.display = '';
+        });
     });
 
     // ---------------------------------------------------
@@ -109,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tagBox = document.querySelector('.tag-box');
         const mainTitle = document.getElementById('main-title');
         const description = document.querySelector('.hero-section .description');
+        const welcomeMessage = document.querySelector('.welcome-message'); // New: Select the welcome message
         const buttons = document.querySelector('.hero-section .buttons');
 
         if (tagBox) {
@@ -120,8 +158,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (description) {
             description.style.animation = 'fadeIn 0.8s ease-out 0.5s forwards';
         }
+        if (welcomeMessage) { // Animate the welcome message
+            welcomeMessage.style.animation = 'fadeIn 0.8s ease-out 0.7s forwards';
+        }
         if (buttons) {
-            buttons.style.animation = 'fadeIn 0.8s ease-out 0.7s forwards';
+            buttons.style.animation = 'fadeIn 0.8s ease-out 0.9s forwards'; // Adjust delay if needed
         }
     };
 
@@ -158,242 +199,50 @@ document.addEventListener('DOMContentLoaded', () => {
         '.contact-form[data-animation], .resource-item[data-animation], .doc-item[data-animation], .faq-item[data-animation], ' +
         '.animated-element[data-animation]'
     ).forEach(el => {
+        // Exclude elements within hero-section from this general observer,
+        // as they are handled by animateHeroSectionElements
         if (!el.closest('.hero-section')) {
             observer.observe(el);
         }
     });
 
+
+
+
+
     // ---------------------------------------------------
-    // 5. OPTIMIZED AI CHATBOT - FAST RESPONSE SYSTEM
+    // 6. Dr. Esaam Moqbel's Biography Modal Logic (New)
     // ---------------------------------------------------
-
-    // Context Memory for Smarter Responses
-    let conversationContext = {
-        userPreferences: {},
-        askedQuestions: new Set(),
-        sessionStartTime: Date.now()
-    };
-
-    // Quick Response Cache
-    const responseCache = new Map();
-
-    // Enhanced Language Support with Faster Processing
-    const languageResponses = {
-        en: {
-            greeting: "Hello! I'm Lineer Global AI Assistant. How can I help you today?",
-            services: `Lineer Global provides integrated solutions in:
-            • Health Solutions (Pharmaceutical packaging, medical equipment)
-            • Food Industry (Custom labeling, packaging solutions)
-            • Textile & Apparel (Branded merchandise, technical textiles)
-            • Education Services (Course materials, educational packaging)
-            • Industrial Solutions (Custom packaging, logistics support)
-            Visit our Features section for detailed information.`,
-            about: `Lineer Global bridges health, education, and industry sectors through:
-            • Cross-sector integration solutions
-            • Emerging market specialization
-            • Global standard implementations
-            • CEO: Dr. Esaam Moqbel (20+ years industry experience)`,
-            contact: `📧 info@lineerglobal.com | 📍 123 Innovation Valley, Istanbul, Turkey | 📱 +90 212 555 01 01
-            Follow us: YouTube | LinkedIn | Twitter | Instagram`,
-            team: `Our expert team:
-            • Dr. Esaam Moqbel (CEO) - Health & Education Solutions
-            • John Smith (CTO) - Technical Implementations  
-            • Ayşe Demir (COO) - Operations Management
-            Meet us in the 'Our Team' section.`,
-            values: `Core Values: Quality Assurance (ISO Certified) | Innovation (R&D Focused) | Ethics (Transparent) | Sustainability (Eco-friendly) | Human Development (Training Programs)`,
-            shipping: "Global logistics with 30+ country partners. Standard: 3-5 business days. Express available.",
-            partnerships: "Strategic partnerships welcome! Contact: partnerships@lineerglobal.com",
-            careers: "Join us! Send CV: careers@lineerglobal.com | Open roles: Logistics Specialist, Sales Manager, QA Engineer",
-            thanks: "You're welcome! Anything else I can help with?",
-            bye: "Thank you for visiting Lineer Global! Have a great day!",
-            fallback: "I can help with: Services, Team, Partnerships, Careers, Shipping, Contact info. What interests you?"
-        },
-        ar: {
-            greeting: "مرحبًا! أنا المساعد الذكي لشركة لاينير جلوبال. كيف يمكنني مساعدتك؟",
-            services: `تقدم لاينير جلوبال حلولاً متكاملة في:
-            • القطاع الصحي (تغليف الأدوية، المعدات الطبية)  
-            • الصناعات الغذائية (الملصقات المخصصة، حلول التعبئة)
-            • المنسوجات والملابس (المنتجات المميزة، الأقمشة التقنية)
-            • الخدمات التعليمية (المواد التعليمية، التغليف التعليمي)
-            • الحلول الصناعية (التعبئة المخصصة، الدعم اللوجستي)`,
-            about: `لاينير جلوبال تربط القطاعات الصحية والتعليمية والصناعية من خلال:
-            • حلول التكامل بين القطاعات • التخصص في الأسواق الناشئة • تطبيق المعايير العالمية
-            • الرئيس التنفيذي: د. عصام مقبل (خبرة 20+ سنة)`,
-            contact: `📧 info@lineerglobal.com | 📍 وادي الابتكار 123، إسطنبول، تركيا | 📱 212 555 01 01 90+
-            تابعونا: يوتيوب | لينكدإن | تويتر | إنستجرام`,
-            team: `فريقنا المتخصص:
-            • د. عصام مقبل (الرئيس التنفيذي) - حلول الصحة والتعليم
-            • جون سميث (الرئيس التقني) - التنفيذ التقني
-            • عائشة دمير (مدير العمليات) - إدارة العمليات`,
-            values: `قيمنا الأساسية: ضمان الجودة | الابتكار | الشفافية | الاستدامة | تطوير الموارد البشرية`,
-            shipping: "شحن عالمي مع شركاء في 30+ دولة. عادي: 3-5 أيام عمل. سريع متاح.",
-            partnerships: "مرحبا بالشراكات الإستراتيجية! اتصل: partnerships@lineerglobal.com",
-            careers: "انضم إلينا! أرسل السيرة: careers@lineerglobal.com | الوظائف: أخصائي لوجستي، مدير مبيعات، مهندس جودة",
-            thanks: "عفواً! أي شيء آخر يمكنني مساعدتك فيه؟",
-            bye: "شكراً لزيارة لاينير جلوبال! نتمنى لك يوماً سعيداً!",
-            fallback: "يمكنني المساعدة في: الخدمات، الفريق، الشراكات، الوظائف، الشحن، التواصل. ما يهمك؟"
-        },
-        tr: {
-            greeting: "Merhaba! Lineer Global Yapay Zeka Asistanı'yım. Nasıl yardımcı olabilirim?",
-            services: `Lineer Global entegre çözümler sunar:
-            • Sağlık Çözümleri (İlaç ambalajı, tıbbi ekipman)
-            • Gıda Endüstrisi (Özel etiketleme, ambalaj çözümleri)  
-            • Tekstil & Giyim (Markalı ürünler, teknik kumaşlar)
-            • Eğitim Hizmetleri (Ders materyalleri, eğitim ambalajı)
-            • Endüstriyel Çözümler (Özel ambalaj, lojistik destek)`,
-            about: `Lineer Global sektörleri birleştiriyor:
-            • Sektörler arası entegrasyon • Gelişen pazarlarda uzmanlık • Küresel standartlar
-            • CEO: Dr. Esaam Moqbel (20+ yıl deneyim)`,
-            contact: `📧 info@lineerglobal.com | 📍 123 İnovasyon Vadisi, İstanbul | 📱 0212 555 01 01
-            Takip edin: YouTube | LinkedIn | Twitter | Instagram`,
-            team: `Uzman ekibimiz:
-            • Dr. Esaam Moqbel (CEO) - Sağlık & Eğitim Çözümleri
-            • John Smith (CTO) - Teknik Uygulamalar
-            • Ayşe Demir (COO) - Operasyon Yönetimi`,
-            values: `Temel Değerler: Kalite Güvencesi | Yenilik | Etik | Sürdürülebilirlik | İnsan Kaynağı Gelişimi`,
-            shipping: "30+ ülkede lojistik. Standart: 3-5 iş günü. Ekspres mevcut.",
-            partnerships: "Stratejik ortaklık için: partnerships@lineerglobal.com",
-            careers: "Katılın! CV: careers@lineerglobal.com | Açık pozisyonlar: Lojistik Uzmanı, Satış Müdürü, Kalite Mühendisi",
-            thanks: "Rica ederim! Başka nasıl yardımcı olabilirim?",
-            bye: "Lineer Global'i ziyaret ettiğiniz için teşekkürler! İyi günler!",
-            fallback: "Yardım edebileceğim konular: Hizmetler, Ekip, Ortaklıklar, Kariyer, Nakliye, İletişim. Hangisi?"
-        }
-    };
-
-    // Ultra-Fast Pattern Matching with Pre-computed Regex
-    const responsePatterns = [
-        { regex: /^(hi|hello|hey|merhaba|مرحبا|سلام|selam)/i, key: 'greeting' },
-        { regex: /(service|solution|product|hizmet|çözüm|ürün|خدمة|حل|منتج)/i, key: 'services' },
-        { regex: /(about|company|who are you|hakkında|şirket|من نحن|شركة)/i, key: 'about' },
-        { regex: /(contact|reach|address|email|phone|iletişim|اتصل|بريد|هاتف)/i, key: 'contact' },
-        { regex: /(team|member|staff|employee|ekip|عضو|فريق|موظف)/i, key: 'team' },
-        { regex: /(value|principle|ethic|quality|değer|ilke|etik|kalite|قيمة|مبدأ|جودة)/i, key: 'values' },
-        { regex: /(ship|deliver|logistic|transport|nakliye|teslimat|lojistik|شحن|توصيل|لوجستي)/i, key: 'shipping' },
-        { regex: /(partner|collaborate|affiliate|ortak|iş birliği|شريك|تعاون)/i, key: 'partnerships' },
-        { regex: /(career|job|position|hire|kariyer|iş|pozisyon|işe alım|وظيفة|مهنة)/i, key: 'careers' },
-        { regex: /(thank|thanks|teşekkür|شكر)/i, key: 'thanks' },
-        { regex: /(bye|goodbye|see you|hoşça kal|وداع)/i, key: 'bye' }
-    ];
-
-    // Chat Functions
-    chatbotButton.addEventListener('click', () => {
-        chatbotModal.classList.toggle('active');
-        if (chatbotModal.classList.contains('active')) {
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            chatbotInput.focus();
-        }
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!chatbotModal.contains(event.target) && !chatbotButton.contains(event.target) && chatbotModal.classList.contains('active')) {
-            chatbotModal.classList.remove('active');
-        }
-    });
-
-    if (closeChatbotBtn) {
-        closeChatbotBtn.addEventListener('click', () => {
-            chatbotModal.classList.remove('active');
+    if (esaamMoqbelCard) {
+        esaamMoqbelCard.style.cursor = 'pointer'; // Indicate it's clickable
+        esaamMoqbelCard.addEventListener('click', () => {
+            esaamBioModal.style.display = 'flex'; // Show the modal
+            // Update modal content language on open
+            updateLanguage(localStorage.getItem('selectedLang') || 'en');
         });
     }
 
-    function addMessage(text, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', `${sender}-message`);
-        messageDiv.textContent = text;
-        chatbotMessages.appendChild(messageDiv);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    if (closeEsaamBioButton) {
+        closeEsaamBioButton.addEventListener('click', () => {
+            esaamBioModal.classList.add('closing'); // Add closing animation class
+            esaamBioModal.addEventListener('animationend', () => {
+                esaamBioModal.style.display = 'none'; // Hide after animation
+                esaamBioModal.classList.remove('closing'); // Remove class for next open
+            }, { once: true }); // Ensure event listener is removed after first use
+        });
     }
 
-    function addTypingIndicator() {
-        const typingDiv = document.createElement('div');
-        typingDiv.classList.add('message', 'ai-message', 'typing-indicator');
-        typingDiv.innerHTML = '<span>●</span><span>●</span><span>●</span>';
-        typingDiv.id = 'typing-indicator';
-        chatbotMessages.appendChild(typingDiv);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        return typingDiv;
-    }
-
-    function removeTypingIndicator() {
-        const indicator = document.getElementById('typing-indicator');
-        if (indicator) {
-            indicator.remove();
-        }
-    }
-
-    function getCurrentLanguage() {
-        return languageSwitcher.value || window.selectedLang || 'en';
-    }
-
-    // SUPER FAST AI Response System
-    function getAiResponse(userMessage) {
-        const currentLang = getCurrentLanguage();
-        const cleanMessage = userMessage.toLowerCase().trim();
-        
-        // Check cache first (instant response for repeated questions)
-        const cacheKey = `${currentLang}-${cleanMessage}`;
-        if (responseCache.has(cacheKey)) {
-            addMessage(responseCache.get(cacheKey), 'ai');
-            return;
-        }
-
-        // Show minimal typing indicator
-        const typingIndicator = addTypingIndicator();
-        
-        // Ultra-fast pattern matching (under 10ms)
-        const startTime = performance.now();
-        let responseKey = 'fallback';
-        
-        for (const pattern of responsePatterns) {
-            if (pattern.regex.test(cleanMessage)) {
-                responseKey = pattern.key;
-                break;
+    // Close modal if clicking outside of the content
+    if (esaamBioModal) {
+        esaamBioModal.addEventListener('click', (event) => {
+            if (event.target === esaamBioModal) {
+                esaamBioModal.classList.add('closing');
+                esaamBioModal.addEventListener('animationend', () => {
+                    esaamBioModal.style.display = 'none';
+                    esaamBioModal.classList.remove('closing');
+                }, { once: true });
             }
-        }
-        
-        const response = languageResponses[currentLang][responseKey];
-        
-        // Cache the response for instant future replies
-        responseCache.set(cacheKey, response);
-        
-        // Update conversation context for smarter responses
-        conversationContext.askedQuestions.add(responseKey);
-        
-        // Minimal delay for natural feel (200ms max)
-        setTimeout(() => {
-            removeTypingIndicator();
-            addMessage(response, 'ai');
-            
-            // Performance logging
-            const processingTime = performance.now() - startTime;
-            console.log(`AI Response time: ${processingTime.toFixed(2)}ms`);
-        }, Math.min(200, Math.random() * 100 + 100));
+        });
     }
 
-    // Event Listeners
-    sendChatbotMessageBtn.addEventListener('click', () => {
-        const userMessage = chatbotInput.value.trim();
-        if (userMessage) {
-            addMessage(userMessage, 'user');
-            chatbotInput.value = '';
-            getAiResponse(userMessage);
-        }
-    });
-
-    chatbotInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            sendChatbotMessageBtn.click();
-        }
-    });
-
-    // Auto-clear cache periodically to prevent memory bloat
-    setInterval(() => {
-        if (responseCache.size > 100) {
-            responseCache.clear();
-        }
-    }, 300000); // Clear every 5 minutes
-
-    // Performance monitoring
-    console.log('Optimized AI Chatbot loaded - Ready for ultra-fast responses!');
 });
