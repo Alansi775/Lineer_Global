@@ -210,39 +210,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // ---------------------------------------------------
-    // 6. Dr. Esaam Moqbel's Biography Modal Logic (New)
-    // ---------------------------------------------------
-    if (esaamMoqbelCard) {
-        esaamMoqbelCard.style.cursor = 'pointer'; // Indicate it's clickable
-        esaamMoqbelCard.addEventListener('click', () => {
-            esaamBioModal.style.display = 'flex'; // Show the modal
-            // Update modal content language on open
-            updateLanguage(localStorage.getItem('selectedLang') || 'en');
-        });
-    }
+// ---------------------------------------------------
+// 6. Dr. Esaam Moqbel's Biography Modal Logic (New)
+// ---------------------------------------------------
+if (esaamMoqbelCard) {
+    esaamMoqbelCard.style.cursor = 'pointer';
+    esaamMoqbelCard.addEventListener('click', () => {
+        esaamBioModal.classList.remove('closing'); // Always remove closing state before showing
+        esaamBioModal.style.display = 'flex';
+        // Update modal content language on open
+        updateLanguage(localStorage.getItem('selectedLang') || 'en');
+    });
+}
 
-    if (closeEsaamBioButton) {
-        closeEsaamBioButton.addEventListener('click', () => {
-            esaamBioModal.classList.add('closing'); // Add closing animation class
-            esaamBioModal.addEventListener('animationend', () => {
-                esaamBioModal.style.display = 'none'; // Hide after animation
-                esaamBioModal.classList.remove('closing'); // Remove class for next open
-            }, { once: true }); // Ensure event listener is removed after first use
-        });
-    }
+function closeEsaamModal() {
+    esaamBioModal.classList.add('closing');
+}
 
+// Only add this ONCE
+if (esaamBioModal) {
+    esaamBioModal.addEventListener('animationend', (event) => {
+        if (esaamBioModal.classList.contains('closing')) {
+            esaamBioModal.style.display = 'none';
+            esaamBioModal.classList.remove('closing');
+        }
+    });
     // Close modal if clicking outside of the content
-    if (esaamBioModal) {
-        esaamBioModal.addEventListener('click', (event) => {
-            if (event.target === esaamBioModal) {
-                esaamBioModal.classList.add('closing');
-                esaamBioModal.addEventListener('animationend', () => {
-                    esaamBioModal.style.display = 'none';
-                    esaamBioModal.classList.remove('closing');
-                }, { once: true });
-            }
-        });
-    }
+    esaamBioModal.addEventListener('click', (event) => {
+        if (event.target === esaamBioModal) {
+            closeEsaamModal();
+        }
+    });
+}
+
+if (closeEsaamBioButton) {
+    closeEsaamBioButton.addEventListener('click', closeEsaamModal);
+}
 
 });
