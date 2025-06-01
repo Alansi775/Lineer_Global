@@ -332,9 +332,8 @@ body.light-mode .bio-modal-content {
 }
 
 /* Modal Close Animation */
-.bio-modal.closing .bio-modal-content {
-    /* Updated animation for a softer, more graceful exit */
-    animation: modal-close 0.4s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045); /* Quicker ease-out, drops slightly */
+.bio-modal-content.closing {
+    animation: modal-close 0.4s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
 @keyframes modal-close {
