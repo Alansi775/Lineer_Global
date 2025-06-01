@@ -125,9 +125,9 @@ body.ar .chatbot-button {
 }
 
 body.ar .chatbot-button .chatbot-tooltip {
-    left: 50%;
+    left: 40%;
     right: auto;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateX(-40%) translateY(-10px);
 }
 
 body.ar .chatbot-button:hover .chatbot-tooltip {
@@ -964,11 +964,12 @@ body.light-mode .animate-border-magic:hover::after {
 }
 
 /* Tooltip (تلميح زر الشات) */
+
 .chatbot-tooltip {
     position: absolute;
     bottom: 100%; /* فوق الزر */
-    /* الموضع الأفقي سيتم تحديده لاحقًا بناءً على الاتجاه */
-    transform: translateY(-10px); /* رفع التلميح قليلًا */
+    right: 50%; /* Center horizontally above the button */
+    transform: translateX(-50%) translateY(-10px); /* Center and lift up */
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 0.5rem 1rem;
@@ -1176,13 +1177,13 @@ html[dir="ltr"] .chatbot-input-area input {
 
 /* للغة العربية (RTL - من اليمين لليسار) */
 html[dir="rtl"] .chatbot-button {
-    left: 30px; /* الزر على اليسار */
+    left: 36px; /* الزر على اليسار */
     right: auto; /* إلغاء أي إعداد 'right' */
 }
 
 html[dir="rtl"] .chatbot-tooltip {
-    left: 50%; /* توسيط التلميح على اليسار */
-    transform: translateX(-50%) translateY(-10px); /* تعديل الموضع الأفقي */
+    left: 60%;
+    transform: translateX(-40%) translateY(-30px); /* Move tooltip to the right */
 }
 
 html[dir="rtl"] .chatbot-button:hover .chatbot-tooltip {
