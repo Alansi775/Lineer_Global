@@ -210,44 +210,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ---------------------------------------------------
-// 6. Dr. Esaam Moqbel's Biography Modal Logic (Robust)
+// 6. Dr. Esaam Moqbel's Biography Modal Logic (Fixed)
 // ---------------------------------------------------
 if (esaamMoqbelCard) {
     esaamMoqbelCard.style.cursor = 'pointer';
     esaamMoqbelCard.addEventListener('click', () => {
-        const modalContent = esaamBioModal.querySelector('.bio-modal-content');
-        // Always reset modal state before showing
-        if (modalContent) {
-            modalContent.classList.remove('closing');
-            // Force reflow to reset animation state
-            void modalContent.offsetWidth;
-            modalContent.style.opacity = '';
-            modalContent.style.transform = '';
-        }
+        // Reset any previous modal state completely
+        resetModalState();
+        
+        // Show the modal
         esaamBioModal.style.display = 'flex';
+        
+        // Ensure content is visible and properly styled
+        const modalContent = esaamBioModal.querySelector('.bio-modal-content');
+        if (modalContent) {
+            modalContent.style.opacity = '1';
+            modalContent.style.transform = 'scale(1)';
+            modalContent.style.visibility = 'visible';
+        }
+        
         // Update modal content language on open
         updateLanguage(localStorage.getItem('selectedLang') || 'en');
     });
+}
+
+function resetModalState() {
+    const modalContent = esaamBioModal.querySelector('.bio-modal-content');
+    if (modalContent) {
+        // Remove any closing animation classes
+        modalContent.classList.remove('closing');
+        
+        // Reset all inline styles that might interfere
+        modalContent.style.opacity = '';
+        modalContent.style.transform = '';
+        modalContent.style.visibility = '';
+        modalContent.style.display = '';
+        
+        // Force reflow to ensure styles are applied
+        void modalContent.offsetWidth;
+    }
+    
+    // Ensure modal background is reset
+    esaamBioModal.style.display = 'none';
 }
 
 function closeEsaamModal() {
     const modalContent = esaamBioModal.querySelector('.bio-modal-content');
     if (modalContent) {
         modalContent.classList.add('closing');
+        
+        // Use timeout as fallback in case animationend doesn't fire
+        setTimeout(() => {
+            if (modalContent.classList.contains('closing')) {
+                resetModalState();
+            }
+        }, 500); // Adjust timeout to match your animation duration
+    } else {
+        // If no modal content found, close immediately
+        resetModalState();
     }
 }
 
-// Only add this ONCE
+// Modal event listeners - only add once
 if (esaamBioModal) {
     const modalContent = esaamBioModal.querySelector('.bio-modal-content');
     if (modalContent) {
-        modalContent.addEventListener('animationend', () => {
-            if (modalContent.classList.contains('closing')) {
-                esaamBioModal.style.display = 'none';
-                modalContent.classList.remove('closing');
+        // Handle animation end
+        modalContent.addEventListener('animationend', (event) => {
+            // Only handle our closing animation
+            if (modalContent.classList.contains('closing') && 
+                (event.animationName === 'fadeOut' || event.animationName === 'scaleOut')) {
+                resetModalState();
             }
         });
     }
+    
     // Close modal if clicking outside of the content
     esaamBioModal.addEventListener('click', (event) => {
         if (event.target === esaamBioModal) {
@@ -256,6 +293,7 @@ if (esaamBioModal) {
     });
 }
 
+// Close button event listener
 if (closeEsaamBioButton) {
     closeEsaamBioButton.addEventListener('click', closeEsaamModal);
 }

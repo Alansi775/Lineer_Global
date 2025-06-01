@@ -169,267 +169,141 @@ body.ar .welcome-message ul li::before {
 
 
 
-/* Biography Modal Styles */
+/* Biography Modal Styles - Fixed Version */
 .bio-modal {
-    display: none; /* Crucial: Hidden by default, controlled by JavaScript */
+    display: none; /* Hidden by default */
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* Allow vertical scrolling if content is long */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    background-color: rgba(0, 0, 0, 0.8); /* Darker, more immersive overlay */
-    /* When active, JavaScript will set display: flex; for centering */
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
-    padding: 25px; /* More padding around the modal on smaller screens */
-    transition: background-color 0.4s ease; /* Smoother overlay transition */
-}
-
-/* FIX: Add this rule to your main CSS file or where your body styles are */
-/* When the modal is open, prevent body scrolling to keep modal centered */
-body.modal-open {
-    overflow: hidden;
-    /* Optional: If you see a jump/shift, you might need to compensate for scrollbar width */
-    /* padding-right: 17px; */
-}
-
-
-/* Pseudo-element for the animated glowing smoke *behind* the modal content */
-.bio-modal::before {
-    content: '';
-    position: absolute;
-    /* Position it relative to the modal itself, but make it appear around the content */
-    top: 50%;
-    left: 50%;
-    width: 900px; /* Slightly larger than max-width of modal-content (850px + padding + border) */
-    height: 100%; /* Adjust height to cover the modal content adequately */
-    max-height: 95vh; /* Prevent it from getting too tall */
-    border-radius: 30px; /* Slightly more rounded than content for a softer glow */
-    /* Radial gradient to create a softer, more centralized "smoke" effect */
-    background: radial-gradient(
-        circle at left,
-        color-mix(in srgb, var(--accent-color) 70%, transparent) 75%, /* Darker Blue */
-        transparent 100%
-    );
-    animation: smokeGlow 12s infinite ease-in-out alternate; /* Slower, oscillating animation */
-    z-index: -1; /* Place it *behind* the modal content */
-    filter: blur(80px); /* Much stronger blur for a truly diffused, smoky glow */
-    opacity: 0.4; /* Very subtle opacity for a faint smoke */
-    transform: translate(-50%, -50%) scale(1); /* Centering trick, initial scale */
-    pointer-events: none; /* Ensure clicks pass through to the overlay */
-    transition: background 0.6s ease, opacity 0.6s ease, filter 0.6s ease; /* Smooth transition for theme change */
-}
-
-body.light-mode .bio-modal::before {
-    filter: blur(60px); /* Slightly less blur in light mode for clarity */
-    opacity: 0.3; /* Even more subtle in light mode */
+    padding: 25px;
+    transition: background-color 0.4s ease;
 }
 
 .bio-modal-content {
-    background-color: var(--card-bg); /* Consistent with your card background */
-    margin: auto; /* Fallback for centering */
-    padding: 35px; /* Generous padding */
-    border-radius: 20px; /* Even more rounded, softer edges */
-    box-shadow: 0 15px 40px var(--shadow-dark); /* Deeper shadow */
+    background-color: var(--card-bg, #fff);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 800px;
     width: 90%;
-    max-width: 850px; /* Slightly wider max-width for more content space */
-    position: relative; /* Essential for its own internal content */
-    /* Updated initial state for a subtle "pop-in" effect */
-    transform: translateY(-20px) scale(0.98);
-    opacity: 0;
-    /* Updated animation for a smoother, slightly more impactful entry */
-    animation: modal-open 0.5s forwards cubic-bezier(0.23, 1, 0.32, 1.2); /* Slower, with a slight overshoot */
-    color: var(--text-color);
-    backdrop-filter: blur(20px) saturate(2); /* Stronger, more elegant glassmorphism */
-    -webkit-backdrop-filter: blur(20px) saturate(2);
-    border: 1px solid var(--card-border); /* Re-added your subtle, consistent border here */
-    transform-origin: center center; /* Ensures scale animates from center */
-    z-index: 0; /* Ensure content is above the pseudo-element */
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    
+    /* Ensure content is always visible by default */
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    
+    /* Animation for opening */
+    animation: modalFadeIn 0.3s ease-out forwards;
 }
 
-body.light-mode .bio-modal-content {
-    background-color: var(--card-bg);
-    box-shadow: 0 12px 35px var(--shadow-dark); /* Adjusted shadow for light mode */
+/* Opening animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.7) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
-/* Header Styling */
+/* Closing animation */
+.bio-modal-content.closing {
+    animation: modalFadeOut 0.3s ease-in forwards;
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.7) translateY(-20px);
+    }
+}
+
+/* Modal header */
 .bio-modal-header {
     display: flex;
-    justify-content: center; /* Centered horizontally */
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--card-border);
-    position: relative; /* For positioning the absolute close button */
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color, #007bff);
 }
 
 .bio-modal-header h3 {
-    font-size: 2em;
-    color: var(--primary-color);
     margin: 0;
-    font-weight: 700;
-    text-shadow: 0 3px 8px var(--shadow-dark);
-    letter-spacing: -0.01em;
-    text-align: center; /* Explicitly centered for robustness */
-    flex-grow: 1; /* Allows the title to take available space and center */
+    color: var(--primary-color, #007bff);
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.close-bio-btn {
+/* Close button */
+.close-bio-modal {
     background: none;
     border: none;
-    font-size: 2.2em;
+    font-size: 1.5rem;
     cursor: pointer;
-    color: var(--text-color);
-    transition: color 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Spring effect */
-    padding: 8px; /* Larger hit area */
+    color: var(--text-color, #333);
+    padding: 5px;
     border-radius: 50%;
-    display: flex; /* Ensure centering of icon */
+    width: 30px;
+    height: 30px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute; /* Position absolutely to break it out of flex flow */
-    right: 0; /* Position to the right in LTR */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for vertical centering */
-    z-index: 2; /* Ensure it's above header content */
+    transition: background-color 0.3s ease;
 }
 
-.close-bio-btn:hover {
-    color: var(--accent-color);
-    transform: translateY(-50%) rotate(180deg) scale(1.2); /* Maintain vertical centering while rotating */
+.close-bio-modal:hover {
+    background-color: var(--hover-bg, rgba(0, 0, 0, 0.1));
 }
 
-/* Body Content Styling */
+/* Modal body */
+.bio-modal-body {
+    line-height: 1.6;
+    color: var(--text-color, #333);
+}
+
 .bio-modal-body p {
-    margin-bottom: 18px;
-    line-height: 1.8;
-    font-size: 1.05em;
-    text-align: justify;
+    margin-bottom: 15px;
 }
 
 .bio-modal-body ul {
-    list-style: disc inside;
-    padding-left: 25px;
-    margin-bottom: 18px;
+    margin: 15px 0;
+    padding-left: 20px;
 }
 
-.bio-modal-body ul li {
-    margin-bottom: 10px;
+.bio-modal-body li {
+    margin-bottom: 8px;
 }
 
-/* Modal Open Animation */
-@keyframes modal-open {
-    from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.98); /* Starts slightly above and slightly smaller */
+/* Responsive design */
+@media (max-width: 768px) {
+    .bio-modal {
+        padding: 15px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+    
+    .bio-modal-content {
+        padding: 20px;
+        max-height: 90vh;
     }
-}
-
-/* Modal Close Animation */
-.bio-modal-content.closing {
-    animation: modal-close 0.4s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045);
-}
-
-@keyframes modal-close {
-    from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+    
+    .bio-modal-header h3 {
+        font-size: 1.3rem;
     }
-    to {
-        opacity: 0;
-        transform: translateY(20px) scale(0.98); /* Fades out as it drops slightly */
-    }
-}
-
-/* Animation for the smoky glow */
-@keyframes smokeGlow {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.5; } /* Subtle pulse */
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
-
-/* RTL adjustments for biography modal */
-body.ar .bio-modal-body p {
-    text-align: right;
-}
-
-body.ar .bio-modal-body ul {
-    padding-right: 25px;
-    padding-left: 0;
-}
-
-/* Specific RTL adjustments for modal header and close button */
-body.ar .bio-modal-header {
-    flex-direction: row; /* Keep the title centered */
-}
-
-body.ar .close-bio-btn {
-    left: 0; /* Position to the left in RTL */
-    right: auto; /* Reset right property */
-    transform: translateY(-50%) rotate(-180deg) scale(1.2); /* Adjust rotation direction for RTL */
-}
-
-body.ar .close-bio-btn:hover {
-    transform: translateY(-50%) rotate(-270deg) scale(1.2); /* Adjust hover rotation for RTL */
-}
-
-
-
-/* Styles for form messages (success/error) */
-.form-messages {
-    margin-top: 25px;
-    padding: 15px 20px;
-    border-radius: 10px;
-    font-size: 1.1em;
-    font-weight: 500;
-    text-align: center;
-    opacity: 0; /* Hidden by default */
-    transform: translateY(10px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-}
-
-.form-messages.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.form-messages.success {
-    background-color: var(--success-bg); /* Define this variable in your root colors */
-    color: var(--success-color); /* Define this variable in your root colors */
-    border: 1px solid var(--success-border); /* Define this variable in your root colors */
-}
-
-.form-messages.error {
-    background-color: var(--error-bg); /* Define this variable in your root colors */
-    color: var(--error-color); /* Define this variable in your root colors */
-    border: 1px solid var(--error-border); /* Define this variable in your root colors */
-}
-
-/* Suggested CSS Variables for your :root in style.css for these messages */
-:root {
-    /* ... existing variables ... */
-    --success-bg: rgba(76, 175, 80, 0.2);   /* Light green for success */
-    --success-color: #4CAF50;              /* Darker green text */
-    --success-border: #4CAF50;
-
-    --error-bg: rgba(244, 67, 54, 0.2);     /* Light red for error */
-    --error-color: #F44336;                /* Darker red text */
-    --error-border: #F44336;
-}
-
-body.light-mode {
-    /* ... existing light mode variables ... */
-    --success-bg: rgba(200, 230, 201, 0.8);
-    --success-color: #388E3C;
-    --success-border: #388E3C;
-
-    --error-bg: rgba(255, 205, 195, 0.8);
-    --error-color: #D32F2F;
-    --error-border: #D32F2F;
 }
