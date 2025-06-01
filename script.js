@@ -259,12 +259,12 @@ function closeEsaamModal() {
     if (modalContent) {
         modalContent.classList.add('closing');
         
-        // Use timeout as fallback in case animationend doesn't fire
+        // Shorter timeout for smoother experience
         setTimeout(() => {
             if (modalContent.classList.contains('closing')) {
                 resetModalState();
             }
-        }, 500); // Adjust timeout to match your animation duration
+        }, 300); // Reduced from 500ms to 300ms
     } else {
         // If no modal content found, close immediately
         resetModalState();
