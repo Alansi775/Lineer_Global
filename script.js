@@ -215,19 +215,16 @@ document.addEventListener('DOMContentLoaded', () => {
 if (esaamMoqbelCard) {
     esaamMoqbelCard.style.cursor = 'pointer';
     esaamMoqbelCard.addEventListener('click', () => {
-        // Always reset modal state before showing
-        esaamBioModal.classList.remove('closing');
         const modalContent = esaamBioModal.querySelector('.bio-modal-content');
+        // Always reset modal state before showing
         if (modalContent) {
             modalContent.classList.remove('closing');
+            // Force reflow to reset animation state
+            void modalContent.offsetWidth;
             modalContent.style.opacity = '';
             modalContent.style.transform = '';
         }
         esaamBioModal.style.display = 'flex';
-
-        // Force reflow to restart animation (fixes some browser bugs)
-        void esaamBioModal.offsetWidth;
-
         // Update modal content language on open
         updateLanguage(localStorage.getItem('selectedLang') || 'en');
     });
@@ -244,10 +241,9 @@ function closeEsaamModal() {
 if (esaamBioModal) {
     const modalContent = esaamBioModal.querySelector('.bio-modal-content');
     if (modalContent) {
-        modalContent.addEventListener('animationend', (event) => {
+        modalContent.addEventListener('animationend', () => {
             if (modalContent.classList.contains('closing')) {
                 esaamBioModal.style.display = 'none';
-                esaamBioModal.classList.remove('closing');
                 modalContent.classList.remove('closing');
             }
         });
