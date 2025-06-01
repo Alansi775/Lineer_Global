@@ -211,13 +211,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ---------------------------------------------------
-// 6. Dr. Esaam Moqbel's Biography Modal Logic (New)
+// 6. Dr. Esaam Moqbel's Biography Modal Logic (Robust)
 // ---------------------------------------------------
 if (esaamMoqbelCard) {
     esaamMoqbelCard.style.cursor = 'pointer';
     esaamMoqbelCard.addEventListener('click', () => {
-        esaamBioModal.classList.remove('closing'); // Always remove closing state before showing
+        // Always reset modal state before showing
+        esaamBioModal.classList.remove('closing');
         esaamBioModal.style.display = 'flex';
+
+        // Force reflow to restart animation (fixes some browser bugs)
+        void esaamBioModal.offsetWidth;
+
+        // Remove any inline styles that might hide the content
+        const modalContent = esaamBioModal.querySelector('.bio-modal-content');
+        if (modalContent) {
+            modalContent.style.opacity = '';
+            modalContent.style.transform = '';
+        }
+
         // Update modal content language on open
         updateLanguage(localStorage.getItem('selectedLang') || 'en');
     });
