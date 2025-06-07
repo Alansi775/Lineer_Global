@@ -451,7 +451,7 @@ app.post('/ask-ollama', async (req, res) => {
 
         // Set response headers for streaming
          res.writeHead(200, {
-            'Content-Type': 'text/event-stream', // Keep Event-Stream for frontend
+            'Content-Type': 'text/event-stream; charset=utf-8', // Keep Event-Stream for frontend
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
         });
