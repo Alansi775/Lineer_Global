@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timeoutId = setTimeout(() => controller.abort(), 120000); 
                 
                // const response = await fetch('http://localhost:3000/ask-ollama', { this is local 
-               const response = await fetch('https://f4a1-78-183-55-233.ngrok-free.app/ask-ollama', { // this is ngrok
+               const response = await fetch('https://eaa6-78-183-55-233.ngrok-free.app/ask-ollama', { // this is ngrok
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
