@@ -264,81 +264,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to add text to the DOM with typewriter/fade-in word by word effect
-async function appendTextCharacterByCharacter(element, text) {
-    // بدلاً من تقسيم بالكلمات، سنقوم بتقسيم النص إلى أحرف (أو وحدات نصية صغيرة)
-    // أو ببساطة معالجته ككتلة واحدة مع تأخير بين إضافة الأحرف
+    async function appendTextWordByWord(element, text) {
+        // Split text by spaces and newlines, keeping delimiters
+        const wordsAndBreaks = text.split(/(\s+|\n)/); 
 
-    // الأفضل هو إضافة النص مباشرة ككتلة واحدة إذا لم يكن هناك تأثير كتابة حرف بحرف مطلوب
-    // إذا أردت تأثير الكتابة، يجب أن تكون هذه الدالة أكثر تعقيدًا للتعامل مع Unicode Grapheme Clusters
-    // لكن لتجنب مشكلة "مرح با"، أفضل حل هو إضافة النص مباشرة.
-
-    // الطريقة الأكثر أمانًا للغة العربية لتجنب التقطيع:
-    const paragraphs = text.split('\n\n'); // تقسيم بالفقرات فقط
-
-    for (let i = 0; i < paragraphs.length; i++) {
-        const paraText = paragraphs[i].trim();
-        if (paraText) {
-            const p = document.createElement('p');
-            p.classList.add('ai-paragraph'); // يمكنك إضافة كلاس للتنسيق
-            element.appendChild(p);
-
-            // الآن، داخل كل فقرة، يمكننا تطبيق تأثير "الكلمة كلمة" أو "الحرف حرف"
-            // ولكن يجب أن نتأكد من أن الكلمة أو الحرف لا يتقطع بشكل خاطئ.
-            // لتجنب تقطيع الكلمات العربية، الأفضل هو إضافة النص كاملاً أو كلمة كلمة.
-
-            // الطريقة البسيطة والآمنة (لا يوجد تأثير كتابة بطيء داخل الفقرة):
-            p.textContent = paraText;
-
-            // الطريقة مع تأثير (تجنب تقطيع الأحرف ولكن الكلمات قد تتقطع إذا كانت معقدة):
-            // هذه الطريقة أفضل من السابقة في التعامل مع الأحرف العربية المركبة (grapheme clusters)
-            const segments = Array.from(paraText); // يقسم النص إلى وحدات نصية منطقية (أحرف)
-            for (const segment of segments) {
+        for (const part of wordsAndBreaks) {
+            if (part === '\n') {
+                element.appendChild(document.createElement('br')); 
+            } else if (part.trim() !== '') {
                 const span = document.createElement('span');
-                span.textContent = segment;
-                span.classList.add('fade-in-word'); // استخدام نفس الكلاس
-                p.appendChild(span);
+                span.textContent = part;
+                span.classList.add('fade-in-word');
+                element.appendChild(span);
                 chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
-                span.offsetHeight;
+                // Trigger reflow/repaint, then apply opacity
+                // This is crucial to ensure the transition is animated from 0 to 1
+                span.offsetHeight; // eslint-disable-line no-unused-expressions
                 span.classList.add('show');
-                await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD / 3)); // أسرع لأنها أحرف
-            }
-
-            if (i < paragraphs.length - 1) {
-                element.appendChild(document.createElement('br')); // إضافة فاصل بين الفقرات
+                
+                await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
+            } else {
+                // If it's just a space, add it directly as text node to avoid extra spans for spaces
+                element.appendChild(document.createTextNode(part));
             }
         }
     }
-}
 
-// استبدل استدعاء `appendTextWordByWord` بـ `appendTextCharacterByCharacter`
-// في دالة `addMessage`:
-async function addMessage(text, sender, language = 'en') {
-    const messageDiv = createMessageContainer(sender, language);
-    if (sender === 'user') {
-        messageDiv.innerHTML = text.replace(/\n/g, '<br>');
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    } else {
-        // هنا الاستدعاء الجديد
-        await appendTextCharacterByCharacter(messageDiv, text);
+    async function addMessage(text, sender, language = 'en') {
+        const messageDiv = createMessageContainer(sender, language);
+        if (sender === 'user') {
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        } else { 
+            await appendTextWordByWord(messageDiv, text);
+        }
     }
-}
-
-// وداخل حلقة الـ streaming (تقريبًا السطر 210):
-// قم بتغيير هذا السطر:
-// await appendTextWordByWord(currentParagraphElement, part);
-// إلى:
-// await appendTextCharacterByCharacter(currentParagraphElement, part);
-
-// ونفس الشيء بعد انتهاء الـ loop (تقريبًا السطر 235):
-// await appendTextWordByWord(currentParagraphElement, paragraphBuffer);
-// إلى:
-// await appendTextCharacterByCharacter(currentParagraphElement, paragraphBuffer);
-
-// وكذلك في معالجة الأخطاء (تقريبًا السطر 248 و 257):
-// await appendTextWordByWord(currentParagraphElement, eventData.text);
-// إلى:
-// await appendTextCharacterByCharacter(currentParagraphElement, eventData.text);
 
     function addTypingIndicator() {
         const typingDiv = document.createElement('div');
