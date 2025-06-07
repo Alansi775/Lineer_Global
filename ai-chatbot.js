@@ -264,42 +264,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to add text to the DOM with typewriter/fade-in word by word effect
-    async function appendTextWordByWord(element, text) {
-        // Split text by spaces and newlines, keeping delimiters
-        const wordsAndBreaks = text.split(/(\s+|\n)/); 
+// حافظ على هذه الدالة كما هي، لا حاجة لتغييرها.
+// async function appendTextWordByWord(element, text) {
+//     const wordsAndBreaks = text.split(/(\s+|\n)/); 
+//     for (const part of wordsAndBreaks) {
+//         if (part === '\n') {
+//             element.appendChild(document.createElement('br')); 
+//         } else if (part.trim() !== '') {
+//             const span = document.createElement('span');
+//             span.textContent = part;
+//             span.classList.add('fade-in-word');
+//             element.appendChild(span);
+//             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+//             span.offsetHeight; 
+//             span.classList.add('show');
+//             await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
+//         } else {
+//             element.appendChild(document.createTextNode(part));
+//         }
+//     }
+// }
 
-        for (const part of wordsAndBreaks) {
-            if (part === '\n') {
-                element.appendChild(document.createElement('br')); 
-            } else if (part.trim() !== '') {
-                const span = document.createElement('span');
-                span.textContent = part;
-                span.classList.add('fade-in-word');
-                element.appendChild(span);
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+// سنقوم بإنشاء دالة مساعدة جديدة لتحل محلها، أو تعديلها بشكل جذري.
+// لنقم بتعديل الدالة الموجودة لديك، مع تغيير اسمها لتوضيح أنها تعالج النصوص المتدفقة.
+async function processStreamedTextForDisplay(element, text) {
+    // هذه الدالة ستعالج النص القادم من الـ streaming.
+    // الفكرة هي تقسيم النص إلى كلمات (بما في ذلك المسافات والفواصل)
+    // وجعل كل كلمة تظهر ببطء ككتلة واحدة في span، مع الحفاظ على اتصال الحروف داخلها.
 
-                // Trigger reflow/repaint, then apply opacity
-                // This is crucial to ensure the transition is animated from 0 to 1
-                span.offsetHeight; // eslint-disable-line no-unused-expressions
-                span.classList.add('show');
-                
-                await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
-            } else {
-                // If it's just a space, add it directly as text node to avoid extra spans for spaces
-                element.appendChild(document.createTextNode(part));
-            }
-        }
-    }
+    // Splitting by words and preserving spaces/newlines.
+    // The key is to match groups of non-whitespace/non-newline characters
+    // OR sequences of whitespace/newlines.
+    const parts = text.match(/(\S+|\s|\n)/g); // Matches non-whitespace sequences OR single whitespace/newlines
 
-    async function addMessage(text, sender, language = 'en') {
-        const messageDiv = createMessageContainer(sender, language);
-        if (sender === 'user') {
-            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+    if (!parts) return; // Handle empty text
+
+    for (const part of parts) {
+        if (part === '\n') {
+            // Newline character, add a <br>
+            element.appendChild(document.createElement('br'));
+        } else if (part.trim() !== '') {
+            // This is a word or a non-whitespace sequence
+            const span = document.createElement('span');
+            span.textContent = part; // The entire word/sequence goes into one span
+            span.classList.add('fade-in-word'); // Keep your styling class
+            element.appendChild(span);
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        } else { 
-            await appendTextWordByWord(messageDiv, text);
+
+            // Trigger reflow/repaint for CSS animation
+            span.offsetHeight;
+            span.classList.add('show');
+            
+            await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD)); // Delay per "word" part
+        } else {
+            // This is a space, add it as a text node to avoid extra spans
+            element.appendChild(document.createTextNode(part));
         }
     }
+}
+
+// دالة addMessage يجب أن تستدعي الدالة الجديدة
+async function addMessage(text, sender, language = 'en') {
+    const messageDiv = createMessageContainer(sender, language);
+    if (sender === 'user') {
+        messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    } else { 
+        // استبدل appendTextWordByWord بـ processStreamedTextForDisplay
+        await processStreamedTextForDisplay(messageDiv, text);
+    }
+}
 
     function addTypingIndicator() {
         const typingDiv = document.createElement('div');
@@ -411,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         currentAIResponseElement.appendChild(currentParagraphElement);
                                         await new Promise(r => setTimeout(r, 100)); // Delay between paragraphs
                                     } else {
-                                        await appendTextWordByWord(currentParagraphElement, part);
+                                        await processStreamedTextForDisplay(currentParagraphElement, part);
                                     }
                                 }
                             } else if (eventData.type === 'end') {
@@ -420,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                                 // Ensure any remaining text in buffer is added
                                 if (paragraphBuffer.trim() !== '' && currentParagraphElement) {
-                                    await appendTextWordByWord(currentParagraphElement, paragraphBuffer);
+                                    await processStreamedTextForDisplay(currentParagraphElement, paragraphBuffer);
                                 }
                                 if (eventData.isFallback) {
                                     await saveUnansweredQuestion(userMessage, streamedResponseLanguage);
@@ -442,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     currentAIResponseElement.appendChild(currentParagraphElement);
                                 }
                                 currentParagraphElement.classList.add('error-message');
-                                await appendTextWordByWord(currentParagraphElement, eventData.text);
+                                await processStreamedTextForDisplay(currentParagraphElement, eventData.text);
                                 await saveUnansweredQuestion(userMessage, streamedResponseLanguage); 
                                 break; 
                             }
