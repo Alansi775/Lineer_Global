@@ -1156,7 +1156,7 @@ html[dir="rtl"] .chatbot-header {
 
 
 html[dir="ltr"] .chatbot-button:hover .chatbot-tooltip {
-    transform: translateX(50%) translateY(-20px);
+    transform: translateX(37%) translateY(-20px);
 }
 
 html[dir="ltr"] .chatbot-modal {
@@ -1187,7 +1187,7 @@ html[dir="rtl"] .chatbot-tooltip {
 }
 
 html[dir="rtl"] .chatbot-button:hover .chatbot-tooltip {
-    transform: translateX(-50%) translateY(-20px);
+    transform: translateX(-37%) translateY(-20px);
 }
 
 html[dir="rtl"] .chatbot-modal {
@@ -1228,6 +1228,72 @@ html[dir="rtl"] .chatbot-header {
 html[dir="rtl"] .chatbot-header h3 {
     text-align: right; /* العنوان لليمين */
     order: 2; /* العنوان يأتي بعد زر الإغلاق (بعد عكس الاتجاه) */
+}
+
+/* Base style for fade-in words (initially hidden) */
+.fade-in-word {
+    opacity: 0;
+    transition: opacity 0.3s ease-out; /* Smooth transition for opacity */
+}
+
+/* Ensure words become visible when added */
+.fade-in-word.show {
+    opacity: 1;
+}
+
+/* Typing Indicator Animation */
+.typing-indicator {
+    background-color: var(--primary-color); /* Use your existing AI message background */
+    color: var(--primary-text-color); /* Use your existing AI message text color */
+    padding: 0.8rem 1rem; /* Match existing message padding */
+    border-radius: 12px; /* Match existing message border-radius */
+    max-width: 85%; /* Match existing message max-width */
+    font-size: 0.95rem; /* Match existing message font-size */
+    line-height: 1.4; /* Match existing message line-height */
+    word-wrap: break-word; /* Match existing message word-wrap */
+    
+    display: inline-flex; /* Use inline-flex to keep dots together */
+    gap: 4px; /* Space between dots */
+    align-items: center;
+    justify-content: center; /* Center dots horizontally if only indicator is present */
+    
+    /* Animation for the dots */
+    animation: typing-dots-fade 1.5s infinite ease-in-out; /* Overall fade for the indicator */
+}
+
+.typing-indicator .dot {
+    width: 8px; /* Size of each dot */
+    height: 8px;
+    background-color: currentColor; /* Use the inherited text color */
+    border-radius: 50%;
+    opacity: 0.7; /* Slight transparency for dots */
+    animation: dot-bounce 1.4s infinite ease-in-out both; /* Individual dot animation */
+}
+
+.typing-indicator .dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator .dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0s; }
+
+/* Keyframes for the dot bouncing animation */
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Keyframes for overall typing indicator fade (optional, but can add subtlety) */
+@keyframes typing-dots-fade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Ensure paragraph elements have margins between them */
+.ai-message p {
+    margin-bottom: 0.5em; /* Space between paragraphs */
+    margin-top: 0; /* Remove default top margin */
+}
+
+.ai-message p:last-child {
+    margin-bottom: 0; /* No margin after the last paragraph */
 }
 
 /* Responsive Design - Enhanced */

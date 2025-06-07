@@ -303,9 +303,38 @@
         </div>
     </div>
 
+
+<script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics.js";
+        // ** إضافة Firestore SDK **
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTuvIWQXFZ9Nq69XYWuiurLdqBSiK-poQ",
+            authDomain: "lineer-global.firebaseapp.com",
+            projectId: "lineer-global",
+            storageBucket: "lineer-global.firebasestorage.app",
+            messagingSenderId: "539401709104",
+            appId: "1:539401709104:web:74aea294b26a83fb6ceff5",
+            measurementId: "G-DXLJYJ5PM6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        // ** تهيئة Firestore وجعله متاحًا عالميًا **
+        const db = getFirestore(app);
+        window.firebaseDb = db; // اجعل db متاحًا عالميًا
+    </script>
+
     <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="ai-chatbot.js" defer></script>
     <script src="form-handler.js"></script>
-    
+
 </body>
 </html>
