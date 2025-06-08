@@ -174,7 +174,18 @@ const companyKnowledge = {
             "Rica ederim! Başka nasıl yardımcı olabilirim?",
             "Memnuniyetle! Başka merak ettiğiniz bir şey var mı?",
             "Yardımcı olabildiğime sevindim! Başka sorularınız varsa çekinmeyin."
+        ]
+    },
+    "developer_info": {
+        "en": [
+            `I am your virtual assistant, and I was developed by the ambitious Yemeni developer, **Mohammed Alansi**. He is a dedicated software development student at **Istanbul Aydin University**, with a primary goal of specializing in **Artificial Intelligence**. Mohammed has a great passion for technology, and he has already developed a **drone project** and has a **prototype for a smart home system**. Currently, Mohammed is part of the development team at **Lineer Global** company, where he focuses on **developing the company's website**. He is a driven and creative individual always striving for innovation!`
         ],
+        "ar": [
+            `أنا مساعدك الافتراضي، وقد تم تطويري بواسطة المطور اليمني الطموح **محمد العنسي**. هو طالب مجتهد ومطور برمجيات في **جامعة اسطنبول أيدن**، وهدفه الأساسي هو التخصص في مجال **الذكاء الاصطناعي**. لديه شغف كبير بالتكنولوجيا، وقد قام بالفعل بتطوير **مشروع طائرة درون**، ولديه **نموذج أولي لمشروع البيت الذكي**. حالياً، يعمل محمد ضمن فريق تطوير شركة **لينير جلوبال**، حيث يركز على **تطوير الموقع الإلكتروني الخاص بالشركة**. إنه شخص طموح ومبدع يسعى دائمًا للابتكار!`
+        ],
+        "tr": [
+            `Benim sanal asistanınızım ve ben azimli Yemenli geliştirici **Mohammed Alansi** tarafından geliştirildim. Kendisi **İstanbul Aydın Üniversitesi**'nde yazılım geliştirme öğrencisi olup, temel hedefi **Yapay Zeka** alanında uzmanlaşmaktır. Mohammed'in teknolojiye büyük bir tutkusu var; halihazırda **bir drone projesi** geliştirdi ve **akıllı ev sistemi için bir prototipi** bulunuyor. Şu anda Mohammed, **Lineer Global** şirketinin geliştirme ekibinde yer almakta ve şirketin **web sitesini geliştirmeye** odaklanmaktadır. O, her zaman yenilik peşinde koşan, azimli ve yaratıcı bir bireydir!`
+        ] 
     }
 };
 
@@ -200,7 +211,8 @@ const keywordMap = {
     "partnership|partners|global|international|işbirliği|ortaklık|شراكة|شركاء|دولي": "global_partnerships",
     "fund|funding|investor|who funds|finansman|yatırımcı|تمويل|مستثمر|من يمول": "funding",
     "branches|office|location|where|şube|nerede|ofis|فروع|مكاتب|أين|موقع": "branches",
-    "projects|work|achievements|proje|çalışmalar|başarılar|مشاريع|أعمال|إنجازات": "projects"
+    "projects|work|achievements|proje|çalışmalar|başarılar|مشاريع|أعمال|إنجازات": "projects",
+    "developer|who developed you|who created you|who made you|who designed you|who trained you|your developer|about your developer|مطور|من قام بتطويرك|من طورك|من انشاك|من سواك|من دربك|من صممك|مطورك|من صنعك|عن المطور|seni kim geliştirdi|seni kim yarattı|seni kim yaptı|seni kim tasarladı|seni kim eğitti|geliştiricin kim|geliştiricin|geliştirici hakkında": "developer_info",
 };
 
 // Function to check if a message is primarily a greeting or well-being inquiry

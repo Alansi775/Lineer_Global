@@ -1,4 +1,4 @@
-// File: ai-chatbot.js
+// File: ai-chatbot.js (استبدل الملف بالكامل بهذا الكود)
 
 document.addEventListener('DOMContentLoaded', () => {
     const chatbotButton = document.getElementById('chatbot-button');
@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentAIResponseElement = null; 
     let currentParagraphElement = null; 
     let streamedResponseLanguage = 'en'; 
-    let paragraphBuffer = ''; 
+    let paragraphBuffer = ''; // هذا سيخزن كامل النص للفقرة الحالية
 
-    const TYPING_DELAY_WORD = 80; // Adjusted for slightly faster word appearance
+    const TYPING_DELAY_CHARACTER = 30; // تأخير أقل لكل حرف لإظهار تأثير الكتابة الحقيقي
+    const PARAGRAPH_DELAY = 100; // تأخير بين الفقرات
 
     class SmartChatbot {
         constructor() {
@@ -156,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timeoutId = setTimeout(() => controller.abort(), 120000); 
                 
                // const response = await fetch('http://localhost:3000/ask-ollama', { this is local 
-               const response = await fetch('https://6aad-78-183-55-233.ngrok-free.app/ask-ollama', { // هذا هو رابط ngrok الحالي، تأكد من تحديثه دائمًا
+               const response = await fetch('https://47b9-78-183-55-233.ngrok-free.app/ask-ollama', { // تأكد من تحديث هذا الرابط
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -263,52 +264,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return messageDiv;
     }
 
-    // **الدالة الوحيدة المسؤولة عن إضافة النص بالتدريج**
-    async function appendResponseTextWithEffect(element, text) {
-        // هذا التعبير النمطي يقسم النص إلى:
-        // 1. تسلسل من الأحرف غير البيضاء (\S+) - هذه هي "الكلمات" (بما في ذلك علامات الترقيم الملتصقة).
-        // 2. تسلسل من المسافات البيضاء (\s+) - هذه هي المسافات بين الكلمات.
-        // 3. الأسطر الجديدة (\n) - لإنشاء فواصل الأسطر.
-        // الأقواس () تجعل هذه الفواصل جزءًا من المصفوفة الناتجة.
-        const parts = text.split(/(\s+|\n)/); 
+    // **الدالة الجديدة لتحريك المحتوى النصي داخل عنصر DOM واحد**
+    // هذا يسمح للمتصفح بتشكيل النص بشكل صحيح قبل بدء تأثير الكتابة.
+    async function animateTextContent(element, fullText) {
+        element.textContent = ''; // مسح أي محتوى سابق
+        const words = fullText.split(/(\s+)/); // تقسيم بالكلمات مع الاحتفاظ بالمسافات
 
-        for (const part of parts) {
-            if (part === '\n') {
-                // إذا كان الجزء عبارة عن سطر جديد، أضف عنصر <br>
-                element.appendChild(document.createElement('br')); 
-            } else if (part.trim() !== '') {
-                // إذا كان الجزء كلمة (ليس فارغًا بعد إزالة المسافات)
-                const span = document.createElement('span');
-                span.textContent = part; // وضع الكلمة بأكملها داخل span واحد
-                span.classList.add('fade-in-word');
-                element.appendChild(span);
-                
-                // التمرير التلقائي لأسفل الشات
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-
-                // تفعيل الـ CSS transition (لـ fade-in)
-                span.offsetHeight; 
-                span.classList.add('show');
-                
-                // التأخير لتأثير الكتابة البطيئة
-                await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
-            } else {
-                // إذا كان الجزء عبارة عن مسافات بيضاء، أضفه كعقدة نصية مباشرة
-                // هذا يضمن بقاء المسافات ودمجها مع النص بشكل صحيح
-                element.appendChild(document.createTextNode(part));
-            }
+        for (const word of words) {
+            // استخدام `textContent` مباشرة يضمن أن الكلمة تُضاف ككتلة واحدة
+            // مما يسمح للمتصفح بتشكيل الحروف العربية بشكل صحيح
+            element.textContent += word;
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_CHARACTER));
         }
     }
 
-    // دالة addMessage يجب أن تستدعي الدالة الصحيحة (appendResponseTextWithEffect)
+
+    // دالة addMessage يجب أن تستدعي الدالة الصحيحة (animateTextContent)
     async function addMessage(text, sender, language = 'en') {
         const messageDiv = createMessageContainer(sender, language);
         if (sender === 'user') {
             messageDiv.innerHTML = text.replace(/\n/g, '<br>');
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
         } else { 
-            // هنا الاستدعاء الصحيح:
-            await appendResponseTextWithEffect(messageDiv, text);
+            // استخدام الدالة الجديدة هنا
+            await animateTextContent(messageDiv, text);
         }
     }
 
@@ -318,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typingDiv.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
         typingDiv.id = 'typing-indicator';
         chatbotMessages.appendChild(typingDiv);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        chatbotMessages.scrollTop = chatbotMessages.scrollTop; // Keep current scroll if possible
         return typingDiv;
     }
 
@@ -363,9 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (responseData.isStream) {
                 currentAIResponseElement = createMessageContainer('ai', clientSideDetectedLanguage);
-                currentParagraphElement = document.createElement('p'); 
+                // لن نضيف <p> هنا، بل سنبني النص بالكامل ثم نضيفه.
+                // أو يمكننا استخدام <p> واحدة وتعبئتها تدريجيا بـ textContent
+                currentParagraphElement = document.createElement('p'); // سنستخدم p واحدة لكل رسالة مبدئياً
                 currentAIResponseElement.appendChild(currentParagraphElement);
-                
+
+                let fullStreamedText = ''; // لتجميع النص الكامل للرد المتدفق
+
                 const reader = responseData.reader;
                 const decoder = responseData.decoder;
                 let buffer = ''; 
@@ -409,32 +393,36 @@ document.addEventListener('DOMContentLoaded', () => {
                                     firstChunkReceived = true;
                                 }
                                 const textChunk = eventData.text;
-                                paragraphBuffer += textChunk;
+                                fullStreamedText += textChunk; // أضف الـ chunk إلى النص الكامل
 
-                                // Process buffer, separating by paragraphs and appending words
-                                const parts = paragraphBuffer.split(/(\n{2,})/).filter(p => p !== ''); // Split by multiple newlines and filter empty strings
-                                paragraphBuffer = ''; // Reset buffer for next iteration
+                                // هنا الفكرة: بدلاً من إضافة span لكل كلمة، نحدث الـ textContent
+                                // هذا يسمح للمتصفح بتشكيل النص بشكل صحيح
+                                currentParagraphElement.textContent = fullStreamedText;
+                                chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // التمرير للأسفل
+                                await new Promise(r => setTimeout(r, TYPING_DELAY_CHARACTER)); // تأخير بسيط لكل تحديث
 
-                                for (let i = 0; i < parts.length; i++) {
-                                    const part = parts[i];
-                                    if (part.match(/\n{2,}/)) { // It's a paragraph separator
-                                        currentParagraphElement = document.createElement('p');
-                                        currentAIResponseElement.appendChild(currentParagraphElement);
-                                        await new Promise(r => setTimeout(r, 100)); // Delay between paragraphs
-                                    } else {
-                                        // هنا الاستدعاء الصحيح:
-                                        await appendResponseTextWithEffect(currentParagraphElement, part);
-                                    }
+                                // **معالجة الفقرات**: إذا وجدنا علامتين جديدتين، فهذا يعني فقرة كاملة
+                                if (textChunk.includes('\n\n')) {
+                                    // قم بإنشاء فقرة جديدة، وامسح النص الكامل لهذه الفقرة
+                                    fullStreamedText = '';
+                                    currentParagraphElement = document.createElement('p');
+                                    currentAIResponseElement.appendChild(currentParagraphElement);
+                                    await new Promise(r => setTimeout(r, PARAGRAPH_DELAY));
                                 }
+
                             } else if (eventData.type === 'end') {
                                 if (!firstChunkReceived) { 
                                     removeTypingIndicator();
                                 }
-                                // Ensure any remaining text in buffer is added
-                                if (paragraphBuffer.trim() !== '' && currentParagraphElement) {
-                                    // هنا الاستدعاء الصحيح:
-                                    await appendResponseTextWithEffect(currentParagraphElement, paragraphBuffer);
+                                // تأكد من عرض أي نص متبقي في buffer
+                                if (fullStreamedText.trim() !== '' && currentParagraphElement) {
+                                    currentParagraphElement.textContent = fullStreamedText;
+                                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                                } else if (currentParagraphElement && currentParagraphElement.textContent.trim() === '') {
+                                    // إذا كانت الفقرة فارغة عند النهاية، قم بإزالتها
+                                    currentParagraphElement.remove();
                                 }
+
                                 if (eventData.isFallback) {
                                     await saveUnansweredQuestion(userMessage, streamedResponseLanguage);
                                 }
@@ -443,21 +431,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (!firstChunkReceived) {
                                     removeTypingIndicator();
                                 }
-                                if (paragraphBuffer.trim() !== '' && currentParagraphElement) {
-                                    // هنا الاستدعاء الصحيح:
-                                    await appendResponseTextWithEffect(currentParagraphElement, paragraphBuffer);
+                                // عرض أي نص تم تجميعه حتى الآن قبل عرض رسالة الخطأ
+                                if (fullStreamedText.trim() !== '' && currentParagraphElement) {
+                                    currentParagraphElement.textContent = fullStreamedText;
+                                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
                                 }
+
                                 if (currentParagraphElement && currentParagraphElement.textContent.trim() !== '') {
+                                    // إذا كان هناك نص بالفعل في الفقرة الحالية، ابدأ فقرة جديدة لرسالة الخطأ
                                     currentParagraphElement = document.createElement('p');
                                     currentAIResponseElement.appendChild(currentParagraphElement);
-                                    await new Promise(r => setTimeout(r, 100));
+                                    await new Promise(r => setTimeout(r, PARAGRAPH_DELAY));
                                 } else if (!currentParagraphElement) {
+                                    // إذا لم يكن هناك عنصر فقرة بعد (في حال الخطأ المبكر)
                                     currentParagraphElement = document.createElement('p');
                                     currentAIResponseElement.appendChild(currentParagraphElement);
                                 }
                                 currentParagraphElement.classList.add('error-message');
-                                // هنا الاستدعاء الصحيح:
-                                await appendResponseTextWithEffect(currentParagraphElement, eventData.text);
+                                await animateTextContent(currentParagraphElement, eventData.text); // استخدم الدالة الجديدة لرسالة الخطأ
                                 await saveUnansweredQuestion(userMessage, streamedResponseLanguage); 
                                 break; 
                             }
@@ -467,16 +458,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 
-                // Process any final remaining buffer content after loop ends
-                if (buffer.trim() !== '' && currentParagraphElement) {
-                    // هنا الاستدعاء الصحيح:
-                    await appendResponseTextWithEffect(currentParagraphElement, buffer);
-                }
-
+                // تنظيف بعد انتهاء الـ stream
                 smartChatbot.isProcessing = false; 
                 currentAIResponseElement = null; 
                 currentParagraphElement = null;
-                paragraphBuffer = '';
+                paragraphBuffer = ''; // التأكد من إعادة تعيينه
+                fullStreamedText = ''; // التأكد من إعادة تعيينه
                 isFirstMessageInChatSession = false; 
 
             } else {
