@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timeoutId = setTimeout(() => controller.abort(), 120000); 
                 
                // const response = await fetch('http://localhost:3000/ask-ollama', { this is local 
-               const response = await fetch('https://eaa6-78-183-55-233.ngrok-free.app/ask-ollama', { // this is ngrok
+               const response = await fetch('https://6aad-78-183-55-233.ngrok-free.app/ask-ollama', { // هذا هو رابط ngrok الحالي، تأكد من تحديثه دائمًا
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -263,77 +263,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return messageDiv;
     }
 
-    // Function to add text to the DOM with typewriter/fade-in word by word effect
-// حافظ على هذه الدالة كما هي، لا حاجة لتغييرها.
-// async function appendTextWordByWord(element, text) {
-//     const wordsAndBreaks = text.split(/(\s+|\n)/); 
-//     for (const part of wordsAndBreaks) {
-//         if (part === '\n') {
-//             element.appendChild(document.createElement('br')); 
-//         } else if (part.trim() !== '') {
-//             const span = document.createElement('span');
-//             span.textContent = part;
-//             span.classList.add('fade-in-word');
-//             element.appendChild(span);
-//             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-//             span.offsetHeight; 
-//             span.classList.add('show');
-//             await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
-//         } else {
-//             element.appendChild(document.createTextNode(part));
-//         }
-//     }
-// }
+    // **الدالة الوحيدة المسؤولة عن إضافة النص بالتدريج**
+    async function appendResponseTextWithEffect(element, text) {
+        // هذا التعبير النمطي يقسم النص إلى:
+        // 1. تسلسل من الأحرف غير البيضاء (\S+) - هذه هي "الكلمات" (بما في ذلك علامات الترقيم الملتصقة).
+        // 2. تسلسل من المسافات البيضاء (\s+) - هذه هي المسافات بين الكلمات.
+        // 3. الأسطر الجديدة (\n) - لإنشاء فواصل الأسطر.
+        // الأقواس () تجعل هذه الفواصل جزءًا من المصفوفة الناتجة.
+        const parts = text.split(/(\s+|\n)/); 
 
-// سنقوم بإنشاء دالة مساعدة جديدة لتحل محلها، أو تعديلها بشكل جذري.
-// لنقم بتعديل الدالة الموجودة لديك، مع تغيير اسمها لتوضيح أنها تعالج النصوص المتدفقة.
-async function processStreamedTextForDisplay(element, text) {
-    // هذه الدالة ستعالج النص القادم من الـ streaming.
-    // الفكرة هي تقسيم النص إلى كلمات (بما في ذلك المسافات والفواصل)
-    // وجعل كل كلمة تظهر ببطء ككتلة واحدة في span، مع الحفاظ على اتصال الحروف داخلها.
+        for (const part of parts) {
+            if (part === '\n') {
+                // إذا كان الجزء عبارة عن سطر جديد، أضف عنصر <br>
+                element.appendChild(document.createElement('br')); 
+            } else if (part.trim() !== '') {
+                // إذا كان الجزء كلمة (ليس فارغًا بعد إزالة المسافات)
+                const span = document.createElement('span');
+                span.textContent = part; // وضع الكلمة بأكملها داخل span واحد
+                span.classList.add('fade-in-word');
+                element.appendChild(span);
+                
+                // التمرير التلقائي لأسفل الشات
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
-    // Splitting by words and preserving spaces/newlines.
-    // The key is to match groups of non-whitespace/non-newline characters
-    // OR sequences of whitespace/newlines.
-    const parts = text.match(/(\S+|\s|\n)/g); // Matches non-whitespace sequences OR single whitespace/newlines
-
-    if (!parts) return; // Handle empty text
-
-    for (const part of parts) {
-        if (part === '\n') {
-            // Newline character, add a <br>
-            element.appendChild(document.createElement('br'));
-        } else if (part.trim() !== '') {
-            // This is a word or a non-whitespace sequence
-            const span = document.createElement('span');
-            span.textContent = part; // The entire word/sequence goes into one span
-            span.classList.add('fade-in-word'); // Keep your styling class
-            element.appendChild(span);
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-
-            // Trigger reflow/repaint for CSS animation
-            span.offsetHeight;
-            span.classList.add('show');
-            
-            await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD)); // Delay per "word" part
-        } else {
-            // This is a space, add it as a text node to avoid extra spans
-            element.appendChild(document.createTextNode(part));
+                // تفعيل الـ CSS transition (لـ fade-in)
+                span.offsetHeight; 
+                span.classList.add('show');
+                
+                // التأخير لتأثير الكتابة البطيئة
+                await new Promise(resolve => setTimeout(resolve, TYPING_DELAY_WORD));
+            } else {
+                // إذا كان الجزء عبارة عن مسافات بيضاء، أضفه كعقدة نصية مباشرة
+                // هذا يضمن بقاء المسافات ودمجها مع النص بشكل صحيح
+                element.appendChild(document.createTextNode(part));
+            }
         }
     }
-}
 
-// دالة addMessage يجب أن تستدعي الدالة الجديدة
-async function addMessage(text, sender, language = 'en') {
-    const messageDiv = createMessageContainer(sender, language);
-    if (sender === 'user') {
-        messageDiv.innerHTML = text.replace(/\n/g, '<br>');
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    } else { 
-        // استبدل appendTextWordByWord بـ processStreamedTextForDisplay
-        await processStreamedTextForDisplay(messageDiv, text);
+    // دالة addMessage يجب أن تستدعي الدالة الصحيحة (appendResponseTextWithEffect)
+    async function addMessage(text, sender, language = 'en') {
+        const messageDiv = createMessageContainer(sender, language);
+        if (sender === 'user') {
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        } else { 
+            // هنا الاستدعاء الصحيح:
+            await appendResponseTextWithEffect(messageDiv, text);
+        }
     }
-}
 
     function addTypingIndicator() {
         const typingDiv = document.createElement('div');
@@ -445,7 +422,8 @@ async function addMessage(text, sender, language = 'en') {
                                         currentAIResponseElement.appendChild(currentParagraphElement);
                                         await new Promise(r => setTimeout(r, 100)); // Delay between paragraphs
                                     } else {
-                                        await processStreamedTextForDisplay(currentParagraphElement, part);
+                                        // هنا الاستدعاء الصحيح:
+                                        await appendResponseTextWithEffect(currentParagraphElement, part);
                                     }
                                 }
                             } else if (eventData.type === 'end') {
@@ -454,7 +432,8 @@ async function addMessage(text, sender, language = 'en') {
                                 }
                                 // Ensure any remaining text in buffer is added
                                 if (paragraphBuffer.trim() !== '' && currentParagraphElement) {
-                                    await processStreamedTextForDisplay(currentParagraphElement, paragraphBuffer);
+                                    // هنا الاستدعاء الصحيح:
+                                    await appendResponseTextWithEffect(currentParagraphElement, paragraphBuffer);
                                 }
                                 if (eventData.isFallback) {
                                     await saveUnansweredQuestion(userMessage, streamedResponseLanguage);
@@ -465,7 +444,8 @@ async function addMessage(text, sender, language = 'en') {
                                     removeTypingIndicator();
                                 }
                                 if (paragraphBuffer.trim() !== '' && currentParagraphElement) {
-                                    await appendTextWordByWord(currentParagraphElement, paragraphBuffer);
+                                    // هنا الاستدعاء الصحيح:
+                                    await appendResponseTextWithEffect(currentParagraphElement, paragraphBuffer);
                                 }
                                 if (currentParagraphElement && currentParagraphElement.textContent.trim() !== '') {
                                     currentParagraphElement = document.createElement('p');
@@ -476,7 +456,8 @@ async function addMessage(text, sender, language = 'en') {
                                     currentAIResponseElement.appendChild(currentParagraphElement);
                                 }
                                 currentParagraphElement.classList.add('error-message');
-                                await processStreamedTextForDisplay(currentParagraphElement, eventData.text);
+                                // هنا الاستدعاء الصحيح:
+                                await appendResponseTextWithEffect(currentParagraphElement, eventData.text);
                                 await saveUnansweredQuestion(userMessage, streamedResponseLanguage); 
                                 break; 
                             }
@@ -488,7 +469,8 @@ async function addMessage(text, sender, language = 'en') {
                 
                 // Process any final remaining buffer content after loop ends
                 if (buffer.trim() !== '' && currentParagraphElement) {
-                    await appendTextWordByWord(currentParagraphElement, buffer);
+                    // هنا الاستدعاء الصحيح:
+                    await appendResponseTextWithEffect(currentParagraphElement, buffer);
                 }
 
                 smartChatbot.isProcessing = false; 
