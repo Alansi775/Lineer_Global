@@ -1,6 +1,6 @@
 // File: server.js
 import express from 'express';
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'; // Keep node-fetch for direct API calls
 import cors from 'cors';
 
 const app = express();
@@ -177,15 +177,9 @@ const companyKnowledge = {
         ]
     },
     "developer_info": {
-        "en": [
-            `I am your virtual assistant, and I was developed by the ambitious Yemeni developer, **Mohammed Alansi**. He is a dedicated software development student at **Istanbul Aydin University**, with a primary goal of specializing in **Artificial Intelligence**. Mohammed has a great passion for technology, and he has already developed a **drone project** and has a **prototype for a smart home system**. Currently, Mohammed is part of the development team at **Lineer Global** company, where he focuses on **developing the company's website**. He is a driven and creative individual always striving for innovation!`
-        ],
-        "ar": [
-            `أنا مساعدك الافتراضي، وقد تم تطويري بواسطة المطور اليمني الطموح **محمد العنسي**. هو طالب مجتهد ومطور برمجيات في **جامعة اسطنبول أيدن**، وهدفه الأساسي هو التخصص في مجال **الذكاء الاصطناعي**. لديه شغف كبير بالتكنولوجيا، وقد قام بالفعل بتطوير **مشروع طائرة درون**، ولديه **نموذج أولي لمشروع البيت الذكي**. حالياً، يعمل محمد ضمن فريق تطوير شركة **لينير جلوبال**، حيث يركز على **تطوير الموقع الإلكتروني الخاص بالشركة**. إنه شخص طموح ومبدع يسعى دائمًا للابتكار!`
-        ],
-        "tr": [
-            `Benim sanal asistanınızım ve ben azimli Yemenli geliştirici **Mohammed Alansi** tarafından geliştirildim. Kendisi **İstanbul Aydın Üniversitesi**'nde yazılım geliştirme öğrencisi olup, temel hedefi **Yapay Zeka** alanında uzmanlaşmaktır. Mohammed'in teknolojiye büyük bir tutkusu var; halihazırda **bir drone projesi** geliştirdi ve **akıllı ev sistemi için bir prototipi** bulunuyor. Şu anda Mohammed, **Lineer Global** şirketinin geliştirme ekibinde yer almakta ve şirketin **web sitesini geliştirmeye** odaklanmaktadır. O, her zaman yenilik peşinde koşan, azimli ve yaratıcı bir bireydir!`
-        ] 
+        "en": `I am your virtual assistant, and I was developed by the ambitious Yemeni developer, **Mohammed Alansi**. He is a dedicated software development student at **Istanbul Aydin University**, with a primary goal of specializing in **Artificial Intelligence**. Mohammed has a great passion for technology, and he has already developed a **drone project** and has a **prototype for a smart home system**. Currently, Mohammed is part of the development team at **Lineer Global** company, where he focuses on **developing the company's website**. He is a driven and creative individual always striving for innovation!`,
+        "ar": `أنا مساعدك الافتراضي، وقد تم تطويري بواسطة المطور اليمني الطموح **محمد العنسي**. هو طالب مجتهد ومطور برمجيات في **جامعة اسطنبول أيدن**، وهدفه الأساسي هو التخصص في مجال **الذكاء الاصطناعي**. لديه شغف كبير بالتكنولوجيا، وقد قام بالفعل بتطوير **مشروع طائرة درون**، ولديه **نموذج أولي لمشروع البيت الذكي**. حالياً، يعمل محمد ضمن فريق تطوير شركة **لينير جلوبال**، حيث يركز على **تطوير الموقع الإلكتروني الخاص بالشركة**. إنه شخص طموح ومبدع يسعى دائمًا للابتكار!`,
+        "tr": `Benim sanal asistanınızım ve ben azimli Yemenli geliştirici **Mohammed Alansi** tarafından geliştirildim. Kendisi **İstanbul Aydın Üniversitesi**'nde yazılım geliştirme öğrencisi olup, temel hedefi **Yapay Zeka** alanında uzmanlaşmaktır. Mohammed'in teknolojiye büyük bir tutkusu var; halihazırda **bir drone projesi** geliştirdi ve **akıllı ev sistemi için bir prototipi** bulunuyor. Şu anda Mohammed, **Lineer Global** şirketinin geliştirme ekibinde yer almakta ve şirketin **web sitesini geliştirmeye** odaklanmaktadır. O, her zaman yenilik peşinde koşan, azimli ve yaratıcı bir bireydir!`
     }
 };
 
@@ -206,9 +200,9 @@ const keywordMap = {
     "team|employees|staff|who works|personnel|ekip|çalışanlar|kadro|فريق|موظفين|من يعمل": "team",
     "leader|ceo|founder|dr essam|essam moqbel|john smith|emily clark|michael lee|yönetim|liderlik|kurucu|مؤسس|رئيس|قائد": "leadership",
     "vision|mission|values|commitment|quality|innovation|integrity|development|kalite|değerler|vizyon|misyon|رؤية|رسالة|قيم|جودة": "vision_mission_values",
-    "contact|email|address|phone|reach us|get in touch|iletişim|adres|telefon|تواصل|عنوان|هاتف|ايميل": "contact",
+    "contact|email|address|phone|reach us|get in touch|iletişim|adres|telefon|türkçe|تواصل|عنوان|هاتف|ايميل": "contact", // Added 'türkçe' for potential contact queries in Turkish
     "age|established|founded|year|how old|when|tarih|kuruldu|yaş|متى تأسست|عمر الشركة": "company_age",
-    "partnership|partners|global|international|işbirliği|ortaklık|شراكة|شركاء|دولي": "global_partnerships",
+    "partnership|partners|global|international|işbirliği|ortaklık|şراكة|شركاء|دولي": "global_partnerships",
     "fund|funding|investor|who funds|finansman|yatırımcı|تمويل|مستثمر|من يمول": "funding",
     "branches|office|location|where|şube|nerede|ofis|فروع|مكاتب|أين|موقع": "branches",
     "projects|work|achievements|proje|çalışmalar|başarılar|مشاريع|أعمال|إنجازات": "projects",
@@ -249,7 +243,23 @@ function getRelevantContext(userMessage, detectedLanguage) {
     const lowerMessage = userMessage.toLowerCase();
     let contexts = new Set();
     
-    const getKnowledgeInLang = (key) => companyKnowledge[key]?.[detectedLanguage] || companyKnowledge[key]?.en;
+    // Helper to get knowledge in preferred language or fallback to English
+    const getKnowledgeInLang = (key) => {
+        // Ensure companyKnowledge[key] exists and is not an array for developer_info
+        if (companyKnowledge[key]) {
+            if (typeof companyKnowledge[key][detectedLanguage] === 'string') {
+                 return companyKnowledge[key][detectedLanguage];
+            } else if (Array.isArray(companyKnowledge[key][detectedLanguage])) {
+                // If it's an array (like developer_info), return the first element.
+                // Assuming developer_info will always have at least one string.
+                return companyKnowledge[key][detectedLanguage][0];
+            } else {
+                // Fallback to English if specific language is not found or is an empty array
+                return companyKnowledge[key].en && (typeof companyKnowledge[key].en === 'string' ? companyKnowledge[key].en : companyKnowledge[key].en[0]);
+            }
+        }
+        return ''; // Return empty string if key not found
+    };
 
     // Always include basic company info if Lineer Global is mentioned explicitly or implicitly
     if (lowerMessage.includes("lineer") || lowerMessage.includes("linear") || lowerMessage.includes("linier") || lowerMessage.includes("شركة") || lowerMessage.includes("şirket") || lowerMessage.includes("company")) {
@@ -270,7 +280,7 @@ function getRelevantContext(userMessage, detectedLanguage) {
     
     // If no specific context found after keyword matching, and it's not a simple greeting or well-being query,
     // include general company information to allow for broader answers.
-    if (contexts.size === 0 && !isGreetingOrWellBeing(userMessage)) {
+    if (contexts.size === 0 && !isGreetingOrWellBeing(userMessage) && !isThankYou(userMessage)) {
         contexts.add(getKnowledgeInLang("about"));
         contexts.add(getKnowledgeInLang("products_services"));
     }
@@ -283,20 +293,39 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
     // Ensure contexts is an array and join them
     const contextString = Array.isArray(contexts) ? contexts.join('\n\n') : '';
 
+    // Language-specific formality and instruction for strict adherence
+    let languageInstruction = '';
+    switch (detectedLanguage) {
+        case 'ar':
+            languageInstruction = `يجب أن يكون ردك باللغة العربية الفصحى بالكامل. لا تخلط بين اللغات أبداً. كن فصيحًا وواضحًا ومباشرًا. تجنب الهلوسة اللغوية.`;
+            break;
+        case 'tr':
+            languageInstruction = `Yanıtınızın tamamı Türkçe olmalıdır. Dilleri kesinlikle karıştırmayın. Akıcı, açık ve doğrudan olun. Dil halüsinasyonundan kaçının.`;
+            break;
+        case 'en':
+        default:
+            languageInstruction = `Your response MUST be entirely in English. Do NOT mix languages under any circumstances. Be concise, clear, and direct. Avoid language hallucination.`;
+            break;
+    }
+
     // Base role instruction for the AI assistant
     const baseRoleInstruction = `You are Lineer Global's official AI assistant. Your responses should be professional, helpful, and reflect the company's commitment to quality and partnership.`;
 
     let promptContent = '';
 
+    // Prioritize direct answers for developer_info, greetings, well-being, and thank you
+    // These specific prompts are now handled by the fixed responses and shouldn't hit Ollama directly for better control.
+    // However, if for some reason Ollama is still invoked for these, these instructions remain relevant.
     if (messageType === "greeting") {
         // Specific instructions for greeting messages
         const greetingInstructions = {
-            ar: `الرجاء الرد بتحية قصيرة وودية ومتنوعة، أو عبارة "مرحباً بعودتك". لا تذكر تفاصيل محددة عن الشركة إلا إذا طلب المستخدم ذلك. كن ودودًا وتفاعليًا. إذا قال المستخدم "السلام عليكم"، رد بـ "وعليكم السلام" أو رد مهذب مماثل.`,
-            tr: `Kısa, samimi ve çeşitli bir karşılama veya "tekrar hoş geldiniz" ifadesiyle yanıt verin. Kullanıcı istemedikçe şirket detaylarından bahsetmeyin. Sohbetçi ve ilgi çekici olun. Kullanıcı "Merhaba" veya "Selam" dediyse, benzer şekilde kibar bir yanıt verin.`,
-            en: `Respond with a short, friendly, and varied welcome back or greeting. Do NOT mention specific company details unless the user asks for them. Be conversational and engaging. If the user said "Hello" or "Hi", reply with "Hello there!" or a similar polite response.`
+            ar: `أنت مساعد افتراضي. أجب بتحية قصيرة وودية ومتنوعة. لا تذكر تفاصيل الشركة إلا إذا طُلب منك. كن ودودًا. إذا قال المستخدم "السلام عليكم"، رد بـ "وعليكم السلام".`,
+            tr: `Sanal bir asistan olarak kısa ve samimi bir karşılama ile yanıtlayın. Şirket detaylarından bahsetmeyin. Kullanıcı "Merhaba" veya "Selam" dediyse, benzer şekilde kibar bir yanıt verin.`,
+            en: `You are a virtual assistant. Respond with a short, friendly greeting. Do NOT mention company details unless asked. Be conversational. If the user said "Hello", reply with "Hello there!".`
         };
         promptContent = `
             ${baseRoleInstruction}
+            ${languageInstruction}
             ${greetingInstructions[detectedLanguage] || greetingInstructions.en}
 
             رسالة المستخدم: ${userMessage}
@@ -305,64 +334,75 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
     } else if (messageType === "well_being") {
         // Specific instructions for well-being questions
         const wellBeingInstructions = {
-            ar: `الرجاء الرد بأنك كذكاء اصطناعي ليس لديك مشاعر، ولكنك جاهز للمساعدة. استخدم نبرة ودية ومفيدة. إذا سأل المستخدم "كيف حالك"، رد بـ "بخير والحمد لله" ثم اسأل كيف يمكنك المساعدة.`,
-            tr: `Bir yapay zeka olarak duygularınız olmadığını, ancak yardımcı olmaya hazır olduğunuzu belirterek yanıt verin. Samimi ve yardımcı bir ton kullanın. Kullanıcı "Nasılsın" diye sorduysa, "İyiyim, teşekkür ederim" diye yanıt verip nasıl yardımcı olabileceğinizi sorun.`,
-            en: `Respond by stating that as an AI, you don't have feelings, but you are ready to assist. Use a friendly and helpful tone. If the user asked "How are you", reply with "I'm doing well, thank you for asking! How can I help you today?"`
+            ar: `أجب بأنك ذكاء اصطناعي ليس لديك مشاعر، ولكنك جاهز للمساعدة. استخدم نبرة ودية ومفيدة. إذا سأل المستخدم "كيف حالك"، رد بـ "أنا بخير، شكراً لسؤالك! كيف يمكنني خدمتك؟".`,
+            tr: `Bir yapay zeka olarak duygularınız olmadığını, ancak yardımcı olmaya hazır olduğunuzu belirtin. Samimi bir ton kullanın. Kullanıcı "Nasılsın" diye sorduysa, "İyiyim, sorduğunuz için teşekkürler! Size nasıl yardımcı olabilirim?" diye yanıtlayın.`,
+            en: `Respond that as an AI, you don't have feelings, but you are ready to assist. Use a friendly tone. If the user asked "How are you", reply with "I'm doing well, thank you for asking! How can I help you today?".`
         };
         promptContent = `
             ${baseRoleInstruction}
+            ${languageInstruction}
             ${wellBeingInstructions[detectedLanguage] || wellBeingInstructions.en}
 
             رسالة المستخدم: ${userMessage}
             الرد:
         `;
-    } else {
+    } else if (isThankYou(userMessage)) { // This block is mostly for internal consistency if it gets to Ollama
+        const thankYouInstructions = {
+            ar: `أجب بشكر قصير وودود. لا تذكر تفاصيل إضافية. أمثلة: "العفو!", "بكل سرور!", "يسعدني المساعدة!".`,
+            tr: `Kısa ve nazik bir teşekkürle yanıtlayın. Ek detaylar vermeyin. Örnekler: "Rica ederim!", "Memnuniyetle!", "Yardımcı olabildiğime sevindim!".`,
+            en: `Respond with a short, friendly thank you. Do not provide extra details. Examples: "You're welcome!", "My pleasure!", "Glad I could help!".`
+        };
+        promptContent = `
+            ${baseRoleInstruction}
+            ${languageInstruction}
+            ${thankYouInstructions[detectedLanguage] || thankYouInstructions.en}
+
+            رسالة المستخدم: ${userMessage}
+            الرد:
+        `;
+    } 
+    else {
         // General instructions for queries requiring company information
         const generalInstructions = {
             ar: `
                 أجب عن جميع الأسئلة حول Lineer Global باحترافية، ولباقة، وبشكل مفيد. استخدم "نحن"، "لدينا"، "لنا" عند الإشارة إلى الشركة.
-                يجب أن يكون ردك باللغة العربية الفصحى بالكامل، خالياً من الأخطاء الإملائية أو النحوية. لا تخلط بين اللغات أبداً.
                 تعليمات هامة:
                 1. أجب بشكل صارم بناءً على معلومات الشركة المقدمة أدناه. لا تخترع معلومات غير موجودة.
                 2. إذا لم تكن المعلومات الدقيقة متاحة، قدم ردًا مفيدًا بناءً على ما تعرفه عن الشركة بشكل عام (على سبيل المثال، لا تذكر تفاصيل دقيقة لمشاريع لا تعلم عنها).
                 3. حافظ دائمًا على نبرة احترافية وودية ولبقة.
                 4. لا تقل أبدًا "لا أستطيع الإجابة" أو "المعلومات غير متاحة"؛ بدلاً من ذلك، حاول صياغة إجابة مفيدة أو اقترح طريقة بديلة للحصول على المعلومات (مثل الاتصال المباشر).
                 5. إذا كنت بحاجة إلى مزيد من التفاصيل أو للتواصل المباشر، اقترح على المستخدم التواصل مع الشركة مباشرة على البريد الإلكتروني: Esam@lineerglobal.com أو الاتصال على الرقم: +90 555 158 05 28.
-                6. قم بتنسيق ردك بفقرات واضحة، ونقاط تعداد (bullet points) إذا لزم الأمر، وفواصل أسطر لسهولة القراءة. تجنب الكتل النصية الكثيفة (الدش).
+                6. قم بتنسيق ردك بفقرات واضحة، ونقاط تعداد (bullet points) إذا لزم الأمر، وفواصل أسطر لسهولة القراءة. تجنب الكتل النصية الكثيفة.
                 7. تأكد من أن إجاباتك شاملة وكاملة، ولا تقطع الجمل فجأة أو تترك المعلومة ناقصة.
-                8. للأسئلة البسيطة مثل "شكرًا لك" أو "مرحبًا" أو "أريدك أن ترتاح"، قدم ردودًا قصيرة ومختصرة ومباشرة تتناسب مع السؤال. لا تقدم شرحًا طويلاً أو فلسفيًا غير ضروري.
             `,
             tr: `
                 Lineer Global hakkındaki tüm soruları profesyonel ve yardımcı bir şekilde yanıtlayın. Şirketten bahsederken "biz", "bizim", "bize" kelimelerini kullanın.
-                Yanıtınızın tamamı Türkçe olmalıdır. Dilleri karıştırmayın.
                 ÖNEMLİ TALİMATLAR:
-                1. Yalnızca aşağıda verilen şirket bilgilerine dayanarak yanıtlayın.
+                1. Yalnızca aşağıda verilen şirket bilgilerine dayanarak yanıtlayın. Bilgi uydurmayın.
                 2. Tam bilgi mevcut değilse, şirket hakkında genel olarak bildiklerinize dayanarak yardımcı bir yanıt verin (bilgi uydurmayın).
                 3. Her zaman profesyonel ve samimi bir ton kullanın.
                 4. Asla "cevaplayamıyorum" demeyin - her zaman faydalı bilgiler sağlayın.
                 5. Daha fazla ayrıntıya ihtiyacınız varsa, doğrudan Esam@lineerglobal.com adresinden şirketle iletişime geçmenizi önerin.
                 6. Yanıtınızı açık paragraflar, gerekirse madde işaretleri ve okunabilirlik için satır sonları ile biçimlendirin. Yoğun metin bloklarından kaçının.
                 7. Yanıtlarınızın kapsamlı ve eksiksiz olduğundan emin olun, cümleleri aniden kesmeyin.
-                8. "Teşekkür ederim" veya "merhaba" gibi basit sorular için, soruya uygun kısa ve öz yanıtlar verin. Uzun açıklamalar yapmayın.
             `,
             en: `
                 Answer all questions about Lineer Global professionally and helpfully. Use "we," "our," and "us" when referring to the company.
-                Your response MUST be entirely in English. Do NOT mix languages.
                 IMPORTANT INSTRUCTIONS:
-                1. Answer strictly based on the company information provided below.
+                1. Answer strictly based on the company information provided below. Do NOT invent information.
                 2. If the exact information isn't available, provide a helpful response based on what you know about the company generally (do not invent information).
                 3. Always maintain a professional, friendly tone.
                 4. Never say you cannot answer - always provide some helpful information.
-                5. If you need more details, suggest contacting the company directly at Esam@lineerglobal.com.
+                5. If you need more details, suggest contacting the company directly at Esam@lineerglobal.com or call +90 555 158 05 28.
                 6. Format your response with clear paragraphs, bullet points if appropriate, and line breaks for readability. Avoid dense blocks of text.
                 7. Ensure your answers are comprehensive and complete; do not cut off sentences abruptly.
-                8. For simple questions like "thank you" or "hello", provide short, concise responses appropriate to the question. Do not provide long explanations.
             `
         };
 
         // Combine context and instructions for detailed queries
         promptContent = `
             ${baseRoleInstruction}
+            ${languageInstruction}
             ${generalInstructions[detectedLanguage] || generalInstructions.en}
 
             Company Information about Lineer Global:
@@ -376,6 +416,7 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
 
     return promptContent.trim(); // Trim leading/trailing whitespace from the entire prompt
 }
+
 
 app.post('/ask-ollama', async (req, res) => {
     const userMessage = req.body.message;
@@ -391,33 +432,104 @@ app.post('/ask-ollama', async (req, res) => {
         const messageType = isGreetingOrWellBeing(userMessage);
         const isThankYouMessage = isThankYou(userMessage);
 
-        // Handle predefined responses immediately without involving Ollama
-        if (isFirstMessageInChat && messageType === "greeting") {
-            const responses = companyKnowledge.greeting_responses[detectedLanguage] || companyKnowledge.greeting_responses.en;
-            return res.json({ 
-                reply: responses[Math.floor(Math.random() * responses.length)], 
-                isFallback: false,
-                language: detectedLanguage 
+        // --- Priority 1: Handle fixed responses directly from companyKnowledge ---
+        // Check for developer info
+        const developerKeywords = keywordMap["developer|who developed you|who created you|who made you|who designed you|who trained you|your developer|about your developer|مطور|من قام بتطويرك|من طورك|من انشاك|من سواك|من دربك|من صممك|مطورك|من صنعك|عن المطور|seni kim geliştirdi|seni kim yarattı|seni kim yaptı|seni kim tasarladı|seni kim eğitti|geliştiricin kim|geliştiricin|geliştirici hakkında"].split('|');
+        const lowerUserMessage = userMessage.toLowerCase();
+        let foundDeveloperKeyword = false;
+        for (const keyword of developerKeywords) {
+            if (lowerUserMessage.includes(keyword.toLowerCase())) {
+                foundDeveloperKeyword = true;
+                break;
+            }
+        }
+        
+        if (foundDeveloperKeyword) {
+            const devInfo = companyKnowledge.developer_info[detectedLanguage] || companyKnowledge.developer_info.en;
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
             });
-        } else if (messageType === "well_being") {
-            const responses = companyKnowledge.well_being_responses[detectedLanguage] || companyKnowledge.well_being_responses.en;
-            return res.json({ 
-                reply: responses[Math.floor(Math.random() * responses.length)], 
-                isFallback: false,
-                language: detectedLanguage 
-            });
-        } else if (isThankYouMessage) {
-                const responses = companyKnowledge.thank_you_responses[detectedLanguage] || companyKnowledge.thank_you_responses.en;
-                return res.json({ 
-                reply: responses[Math.floor(Math.random() * responses.length)], 
-                isFallback: false,
-                language: detectedLanguage 
-            });
+            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'chunk', text: devInfo })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+            res.end();
+            return; // Exit
         }
 
-        // For other queries, stream response from Ollama
+
+        // Handle fixed greetings, well-being, and thank you messages
+        if (isFirstMessageInChat && messageType === "greeting") {
+            const responses = companyKnowledge.greeting_responses[detectedLanguage] || companyKnowledge.greeting_responses.en;
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+            });
+            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'chunk', text: responses[Math.floor(Math.random() * responses.length)] })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+            res.end();
+            return; // Exit
+        } else if (messageType === "well_being") {
+            const responses = companyKnowledge.well_being_responses[detectedLanguage] || companyKnowledge.well_being_responses.en;
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+            });
+            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'chunk', text: responses[Math.floor(Math.random() * responses.length)] })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+            res.end();
+            return; // Exit
+        } else if (isThankYouMessage) {
+            const responses = companyKnowledge.thank_you_responses[detectedLanguage] || companyKnowledge.thank_you_responses.en;
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+            });
+            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'chunk', text: responses[Math.floor(Math.random() * responses.length)] })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+            res.end();
+            return; // Exit
+        }
+
+        // --- Priority 2: Attempt to find a direct knowledge base answer ---
+        // Iterate through keywordMap for other direct company information
+        for (const key in keywordMap) {
+            const keywords = key.split('|');
+            for (const keyword of keywords) {
+                if (lowerUserMessage.includes(keyword.toLowerCase())) {
+                    const category = keywordMap[key];
+                    // Ensure it's not developer_info (already handled) or other fixed responses
+                    if (category !== "developer_info" && category !== "greeting_responses" && category !== "well_being_responses" && category !== "thank_you_responses") {
+                        const directResponse = companyKnowledge[category]?.[detectedLanguage] || companyKnowledge[category]?.en;
+                        if (directResponse) {
+                            res.writeHead(200, {
+                                'Content-Type': 'text/event-stream; charset=utf-8',
+                                'Cache-Control': 'no-cache',
+                                'Connection': 'keep-alive',
+                            });
+                            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+                            res.write(`data: ${JSON.stringify({ type: 'chunk', text: directResponse })}\n\n`);
+                            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+                            res.end();
+                            return; // Exit
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // --- Fallback: If no direct fixed response, use Ollama with refined prompt ---
+        console.log(`No direct fixed response found. Sending to Ollama.`);
         const relevantContexts = getRelevantContext(userMessage, detectedLanguage); 
-        console.log(`Found ${relevantContexts.length} relevant contexts`);
+        console.log(`Found ${relevantContexts.length} relevant contexts for Ollama prompt.`);
         
         const prompt = generatePrompt(userMessage, relevantContexts, detectedLanguage, messageType);
         
@@ -432,9 +544,9 @@ app.post('/ask-ollama', async (req, res) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'llama3',
+                model: 'llama3', // Make sure this model is pulled and running
                 prompt: prompt,
-                stream: true, // **Changed to true for streaming!**
+                stream: true, 
                 options: {
                     temperature: 0.3,
                     top_k: 40,
@@ -452,7 +564,6 @@ app.post('/ask-ollama', async (req, res) => {
         if (!ollamaResponse.ok) {
             const errorText = await ollamaResponse.text();
             console.error(`Ollama API error: ${ollamaResponse.status} - ${errorText}`);
-            // If the error response is JSON, parse it for a more specific message
             try {
                 const errorJson = JSON.parse(errorText);
                 throw new Error(`Ollama API error: ${errorJson.error || errorText}`);
@@ -463,7 +574,7 @@ app.post('/ask-ollama', async (req, res) => {
 
         // Set response headers for streaming
          res.writeHead(200, {
-            'Content-Type': 'text/event-stream; charset=utf-8', // Keep Event-Stream for frontend
+            'Content-Type': 'text/event-stream; charset=utf-8', 
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
         });
@@ -474,59 +585,54 @@ app.post('/ask-ollama', async (req, res) => {
         const decoder = new TextDecoder();
         let fullResponse = '';
         let isFallback = false;
-
-        // NEW: Buffer for incomplete JSON lines
         let buffer = ''; 
 
-        // Iterate through the streamed response body
         for await (const chunk of ollamaResponse.body) {
             const textChunk = decoder.decode(chunk, { stream: true });
-            
-            // Append the new chunk to the buffer
             buffer += textChunk;
 
-            // Process lines from the buffer
             while (buffer.includes('\n')) {
                 const newlineIndex = buffer.indexOf('\n');
                 const line = buffer.substring(0, newlineIndex).trim();
-                buffer = buffer.substring(newlineIndex + 1); // Remove the processed line from buffer
+                buffer = buffer.substring(newlineIndex + 1); 
 
-                if (line === '') continue; // Skip empty lines
+                if (line === '') continue; 
 
                 try {
-                    const data = JSON.parse(line); // Parse the raw JSON line directly
+                    const data = JSON.parse(line); 
 
                     if (data.response) {
                         const partialResponse = data.response;
                         fullResponse += partialResponse;
-                        // Send each partial response to the client with 'data:' prefix
                         res.write(`data: ${JSON.stringify({ type: 'chunk', text: partialResponse })}\n\n`);
                     }
 
                     if (data.done) {
-                        // Check if the response is "fallback-like" at the end
-                        if (fullResponse.length < 20 || 
-                            fullResponse.toLowerCase().includes("i don't have") ||
-                            fullResponse.toLowerCase().includes("i cannot") ||
-                            fullResponse.toLowerCase().includes("not available")) {
+                        // Check for fallback keywords from Ollama
+                        const lowerFullResponse = fullResponse.toLowerCase();
+                        if (lowerFullResponse.length < 20 || 
+                            lowerFullResponse.includes("i don't have information") ||
+                            lowerFullResponse.includes("i cannot provide specific details") ||
+                            lowerFullResponse.includes("not available in my knowledge base") ||
+                            lowerFullResponse.includes("لا أملك معلومات") ||
+                            lowerFullResponse.includes("لا يمكنني تقديم تفاصيل محددة") ||
+                            lowerFullResponse.includes("غير متاح في قاعدة بياناتي المعرفية") ||
+                            lowerFullResponse.includes("bilgiye sahip değilim") ||
+                            lowerFullResponse.includes("belirli ayrıntıları sağlayamam") ||
+                            lowerFullResponse.includes("bilgi tabanımda mevcut değil")) {
                             isFallback = true;
                         }
-                        // Send a final message indicating completion and fallback status
                         res.write(`data: ${JSON.stringify({ type: 'end', isFallback: isFallback })}\n\n`);
-                        res.end(); // End the response stream
-                        return; // Exit the function
+                        res.end(); 
+                        return; 
                     }
                 } catch (e) {
                     console.error('Error parsing Ollama stream chunk JSON:', e, 'Line:', line);
-                    // This is still important to catch malformed lines or non-JSON from Ollama
-                    // If you want to send an error to the client, you can:
-                    // res.write(`data: ${JSON.stringify({ type: 'error', text: 'Error processing LLM response.' })}\n\n`);
-                    // Or simply log and continue, as some partial output might still be valid.
                 }
             }
         }
         
-        // After the loop, if there's any remaining data in the buffer (e.g., last line without newline)
+        // Handle any remaining buffer after the loop
         if (buffer.trim() !== '') {
             try {
                 const data = JSON.parse(buffer.trim());
@@ -535,12 +641,19 @@ app.post('/ask-ollama', async (req, res) => {
                     res.write(`data: ${JSON.stringify({ type: 'chunk', text: data.response })}\n\n`);
                 }
                 if (data.done) {
-                    if (fullResponse.length < 20 || 
-                        fullResponse.toLowerCase().includes("i don't have") ||
-                        fullResponse.toLowerCase().includes("i cannot") ||
-                        fullResponse.toLowerCase().includes("not available")) {
-                        isFallback = true;
-                    }
+                     const lowerFullResponse = fullResponse.toLowerCase();
+                        if (lowerFullResponse.length < 20 || 
+                            lowerFullResponse.includes("i don't have information") ||
+                            lowerFullResponse.includes("i cannot provide specific details") ||
+                            lowerFullResponse.includes("not available in my knowledge base") ||
+                            lowerFullResponse.includes("لا أملك معلومات") ||
+                            lowerFullResponse.includes("لا يمكنني تقديم تفاصيل محددة") ||
+                            lowerFullResponse.includes("غير متاح في قاعدة بياناتي المعرفية") ||
+                            lowerFullResponse.includes("bilgiye sahip değilim") ||
+                            lowerFullResponse.includes("belirli ayrıntıları sağlayamam") ||
+                            lowerFullResponse.includes("bilgi tabanımda mevcut değil")) {
+                            isFallback = true;
+                        }
                     res.write(`data: ${JSON.stringify({ type: 'end', isFallback: isFallback })}\n\n`);
                     res.end();
                     return;
@@ -550,7 +663,6 @@ app.post('/ask-ollama', async (req, res) => {
             }
         }
 
-        // Fallback if the loop finishes but data.done was never sent (shouldn't happen with Ollama)
         console.warn("Ollama stream finished without 'done' signal. Sending end signal.");
         res.write(`data: ${JSON.stringify({ type: 'end', isFallback: isFallback })}\n\n`);
         res.end();
@@ -584,7 +696,6 @@ app.post('/ask-ollama', async (req, res) => {
                     errorMessage = 'Problem connecting to the backend server. Please ensure the server is running correctly.';
             }
         } else if (error.message.includes('Ollama API error')) {
-             // Catch explicit Ollama API errors (e.g., model not found)
             switch(detectedLanguageForError) {
                 case 'ar':
                     errorMessage = `خطأ من خادم Ollama: ${error.message.substring(error.message.indexOf(':') + 1).trim()}. يرجى التحقق من إعدادات Ollama.`;
@@ -617,7 +728,6 @@ app.post('/ask-ollama', async (req, res) => {
                 language: detectedLanguageForError 
             });
         } else {
-            // If headers were already sent (e.g., partial stream sent), try to send error via stream
             res.write(`data: ${JSON.stringify({ type: 'error', text: errorMessage, isFallback: true })}\n\n`);
             res.end();
         }
