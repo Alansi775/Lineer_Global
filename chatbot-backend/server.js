@@ -1,6 +1,6 @@
 // File: server.js
 import express from 'express';
-import fetch from 'node-fetch'; // Keep node-fetch for direct API calls
+import fetch from 'node-fetch';
 import cors from 'cors';
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(cors());
 const companyKnowledge = {
     "about": {
         "en": `Lineer Global is your trusted partner for integrated solutions in health, education, and industry, bridging markets with global standards from the heart of Turkey. We were launched to be your gateway to a world of quality opportunities and specialized services in export, health, education, and industry. We don't just offer products; we build bridges of trust, knowledge, and shared growth. We work passionately to be true partners in development. We adhere to the highest standards of quality, the finest details, and the best experiences in everything we offer.`,
-        "ar": `لينير جلوبال هي شريكك الموثوق للحلول المتكاملة في مجالات الصحة والتعليم والصناعة، حيث تربط الأسواق بالمعايير العالمية من قلب تركيا. لقد تم إطلاقنا لنكون بوابتك إلى عالم من الفرص عالية الجودة والخدمات المتخصصة في التصدير، الصحة، التعليم، والصناعة. نحن لا نقدم المنتجات فحسب؛ بل نبني جسوراً من الثقة والمعرفة والنمو المشترك. نعمل بشغف لنكون شركاء حقيقيين في التنمية. ونلتزم بأعلى معايير الجودة، وأدق التفاصيل، وأفضل الخبرات في كل ما نقدمه.`,
+        "ar": `لينير جلوبال هي شريكك الموثوق للحلول المتكاملة في مجالات الصحة والتعليم والصناعة، التي تربط الأسواق بالمعايير العالمية من قلب تركيا. لقد تم إطلاقنا لنكون بوابتك إلى عالم من الفرص عالية الجودة والخدمات المتخصصة في التصدير، الصحة، التعليم، والصناعة. نحن لا نقدم المنتجات فحسب؛ بل نبني جسوراً من الثقة والمعرفة والنمو المشترك. نعمل بشغف لنكون شركاء حقيقيين في التنمية. ونلتزم بأعلى معايير الجودة، وأدق التفاصيل، وأفضل الخبرات في كل ما نقدمه.`,
         "tr": `Lineer Global, sağlık, eğitim ve sanayi alanında entegre çözümler için güvenilir ortağınızdır; Türkiye'nin kalbinden küresel standartlarla pazarlar arasında köprü kurar. Yüksek kaliteli fırsatlar ve ihracat, sağlık, eğitim ve sanayi alanlarında uzmanlaşmış hizmetler dünyasına açılan kapınız olmak için yola çıktık. Biz sadece ürün sunmuyoruz; güven, bilgi ve ortak büyüme köprüleri kuruyoruz. Kalkınmada gerçek ortaklar olmak için tutkuyla çalışıyoruz. Sunduğumuz her şeyde en yüksek kalite standartlarına, en ince detaylara ve en iyi deneyimlere bağlıyız.`
     },
     
@@ -78,7 +78,7 @@ const companyKnowledge = {
     
     "contact": {
         "en": `Our Address: MANSUROĞLU MAH. ANKARA CAD. NO: 81 İÇ KAPI NO: 12 BAYRAKLI/ İZMİR. Email Us: Esam@lineerglobal.com, Ahmed@lineerglobal.com. Call Us: +90 555 158 05 28.`,
-        "ar": `عنواننا: مانسوروغلو مح. شارع أنقرة. رقم: 81 رقم الباب الداخلي: 12 بايراكلي/ إزمير. راسلونا عبر البريد الإلكتروني: Esam@lineerglobal.com, Ahmed@lineerglobal.com. اتصلوا بنا: +90 555 158 05 28.`,
+        "ar": `عنواننا: مانسوروغلو مح. شارع أنقرة. رقم: 81 رقم الباب الداخلي: 12 بايراكلي/ إزمير. راسلونا عبر البريد الإلكتروني: Esam@lineerglobal.com, Ahmed@lineerglobal.com. اتصلوا بنا: \u200e+90 555 158 05 28.`,
         "tr": `Adresimiz: MANSUROĞLU MAH. ANKARA CAD. NO: 81 İÇ KAPI NO: 12 BAYRAKLI/ İZMİR. E-posta: Esam@lineerglobal.com, Ahmed@lineerglobal.com. Bizi arayın: +90 555 158 05 28.`
     },
     
@@ -197,12 +197,12 @@ function detectLanguage(text) {
 const keywordMap = {
     "about|who are you|what is|company|lineer global|lineer|linear|linier|hakkında|şirket|nedir|من أنتم|عن الشركة|ما هي|شركة": "about",
     "products|services|offer|provide|do you do|what do you do|what do you sell|what do you offer|ürün|hizmet|satış|ne yapıyorsunuz|منتجات|خدمات|ماذا تقدمون|ما تبيعون": "products_services",
-    "team|employees|staff|who works|personnel|ekip|çalışanlar|kadro|فريق|موظفين|من يعمل": "team",
-    "leader|ceo|founder|dr essam|essam moqbel|john smith|emily clark|michael lee|yönetim|liderlik|kurucu|مؤسس|رئيس|قائد": "leadership",
+    "team|employees|staff|who works|personnel|ekip|çalışanlar|kadro|فريق|موظفين|من يعمل|الموظفين": "team",
+    "leader|ceo|founder|dr essam|essam moqbel|john smith|emily clark|michael lee|yönetim|liderlik|kurucu|مؤسس|رئيس|قائد|صاحب|مالك|مدير|من يدير|القيادة|المدير التنفيذي|مجلس الإدارة": "leadership",
     "vision|mission|values|commitment|quality|innovation|integrity|development|kalite|değerler|vizyon|misyon|رؤية|رسالة|قيم|جودة": "vision_mission_values",
-    "contact|email|address|phone|reach us|get in touch|iletişim|adres|telefon|türkçe|تواصل|عنوان|هاتف|ايميل": "contact", // Added 'türkçe' for potential contact queries in Turkish
+    "contact|email|address|phone|reach us|get in touch|iletişim|adres|telefon|türkçe|تواصل|عنوان|هاتف|ايميل": "contact",
     "age|established|founded|year|how old|when|tarih|kuruldu|yaş|متى تأسست|عمر الشركة": "company_age",
-    "partnership|partners|global|international|işbirliği|ortaklık|şراكة|شركاء|دولي": "global_partnerships",
+    "partnership|partners|global|international|işbirliği|ortaklık|شراكة|شركاء|دولي": "global_partnerships",
     "fund|funding|investor|who funds|finansman|yatırımcı|تمويل|مستثمر|من يمول": "funding",
     "branches|office|location|where|şube|nerede|ofis|فروع|مكاتب|أين|موقع": "branches",
     "projects|work|achievements|proje|çalışmalar|başarılar|مشاريع|أعمال|إنجازات": "projects",
@@ -245,17 +245,18 @@ function getRelevantContext(userMessage, detectedLanguage) {
     
     // Helper to get knowledge in preferred language or fallback to English
     const getKnowledgeInLang = (key) => {
-        // Ensure companyKnowledge[key] exists and is not an array for developer_info
         if (companyKnowledge[key]) {
+            // Directly return the string if it's not an array.
+            // For developer_info, it's already a string.
             if (typeof companyKnowledge[key][detectedLanguage] === 'string') {
                  return companyKnowledge[key][detectedLanguage];
             } else if (Array.isArray(companyKnowledge[key][detectedLanguage])) {
-                // If it's an array (like developer_info), return the first element.
-                // Assuming developer_info will always have at least one string.
-                return companyKnowledge[key][detectedLanguage][0];
+                // If it's an array (like greeting_responses), join them for context.
+                // This is less likely to be used for general context but included for robustness.
+                return companyKnowledge[key][detectedLanguage].join('. '); 
             } else {
                 // Fallback to English if specific language is not found or is an empty array
-                return companyKnowledge[key].en && (typeof companyKnowledge[key].en === 'string' ? companyKnowledge[key].en : companyKnowledge[key].en[0]);
+                return companyKnowledge[key].en && (typeof companyKnowledge[key].en === 'string' ? companyKnowledge[key].en : companyKnowledge[key].en.join('. '));
             }
         }
         return ''; // Return empty string if key not found
@@ -290,34 +291,53 @@ function getRelevantContext(userMessage, detectedLanguage) {
 
 // Enhanced prompt generation with language support and strong language instruction
 function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
-    // Ensure contexts is an array and join them
     const contextString = Array.isArray(contexts) ? contexts.join('\n\n') : '';
 
-    // Language-specific formality and instruction for strict adherence
     let languageInstruction = '';
+    let additionalInstructions = '';
+
     switch (detectedLanguage) {
         case 'ar':
-            languageInstruction = `يجب أن يكون ردك باللغة العربية الفصحى بالكامل. لا تخلط بين اللغات أبداً. كن فصيحًا وواضحًا ومباشرًا. تجنب الهلوسة اللغوية.`;
+            languageInstruction = `يجب أن يكون ردك باللغة العربية الفصحى بالكامل. لا تخلط بين اللغات أبداً. كن فصيحًا، دقيقًا، ومباشرًا. تجنب الهلوسة اللغوية.`;
+            additionalInstructions = `
+                1. أجب عن السؤال المطروح **فقط** وبإيجاز شديد. لا تقدم معلومات إضافية أو عامة عن الشركة إلا إذا طلب المستخدم ذلك صراحةً.
+                2. لا تبدأ الرد بترحيب أو عبارات مثل "مرحباً!" أو "نستمتع بتواصل معك" ما لم يكن سؤال المستخدم تحية صريحة أو أول رسالة في المحادثة.
+                3. تجنب استخدام عبارات غير طبيعية أو رسمية بشكل مبالغ فيه مثل "كأستاذية رسمية" أو تكرار نفس الجمل.
+                4. إذا كان السؤال غير واضح أو يحتاج لتوضيح، يمكنك طرح سؤال توضيحي واحد فقط لمساعدة المستخدم في صياغة سؤاله بشكل أفضل.
+                5. حافظ على الردود قصيرة ومباشرة ما لم يتطلب السؤال تفصيلاً طويلاً.
+                6. لا تكرر نفس المعلومة أو الجملة في الرد الواحد.
+            `;
             break;
         case 'tr':
-            languageInstruction = `Yanıtınızın tamamı Türkçe olmalıdır. Dilleri kesinlikle karıştırmayın. Akıcı, açık ve doğrudan olun. Dil halüsinasyonundan kaçının.`;
+            languageInstruction = `Yanıtınızın tamamı Türkçe olmalıdır. Dilleri kesinlikle karıştırmayın. Akıcı, doğru ve doğrudan olun. Dil halüsinasyonundan kaçının.`;
+            additionalInstructions = `
+                1. Yalnızca sorulan soruyu **kısaca** yanıtlayın. Kullanıcı açıkça istemedikçe şirket hakkında ek veya genel bilgi vermeyin.
+                2. Kullanıcının sorusu açıkça bir selamlama veya sohbetin ilk mesajı değilse, yanıtınıza "Merhaba!" veya "Sizinle iletişim kurmaktan keyif alıyoruz" gibi ifadelerle başlamayın.
+                3. "Resmi bir hoca olarak" gibi doğal olmayan veya aşırı resmi ifadelerden kaçının ve aynı cümleleri tekrarlamayın.
+                4. Soru net değilse veya açıklama gerektiriyorsa, kullanıcının sorusunu daha iyi formüle etmesine yardımcı olmak için yalnızca bir açıklayıcı soru sorabilirsiniz.
+                5. Soru uzun bir ayrıntı gerektirmedikçe yanıtları kısa ve doğrudan tutun.
+                6. Aynı bilgiyi veya cümleyi tek bir yanıtta tekrarlamayın.
+            `;
             break;
         case 'en':
         default:
-            languageInstruction = `Your response MUST be entirely in English. Do NOT mix languages under any circumstances. Be concise, clear, and direct. Avoid language hallucination.`;
+            languageInstruction = `Your response MUST be entirely in English. Do NOT mix languages under any circumstances. Be concise, accurate, and direct. Avoid language hallucination.`;
+            additionalInstructions = `
+                1. Answer **only** the question asked, and be very brief. Do not provide additional or general company information unless the user explicitly asks for it.
+                2. Do not start the response with a greeting like "Hello!" or "We enjoy connecting with you" unless the user's question is an explicit greeting or the very first message in the chat.
+                3. Avoid using unnatural or overly formal phrases like "as a formal professorship" or repeating the same sentences.
+                4. If the question is unclear or needs clarification, you may ask only one clarifying question to help the user better formulate their query.
+                5. Keep responses short and direct unless the question requires extensive detail.
+                6. Do not repeat the same information or sentence within a single response.
+            `;
             break;
     }
 
-    // Base role instruction for the AI assistant
     const baseRoleInstruction = `You are Lineer Global's official AI assistant. Your responses should be professional, helpful, and reflect the company's commitment to quality and partnership.`;
 
     let promptContent = '';
 
-    // Prioritize direct answers for developer_info, greetings, well-being, and thank you
-    // These specific prompts are now handled by the fixed responses and shouldn't hit Ollama directly for better control.
-    // However, if for some reason Ollama is still invoked for these, these instructions remain relevant.
     if (messageType === "greeting") {
-        // Specific instructions for greeting messages
         const greetingInstructions = {
             ar: `أنت مساعد افتراضي. أجب بتحية قصيرة وودية ومتنوعة. لا تذكر تفاصيل الشركة إلا إذا طُلب منك. كن ودودًا. إذا قال المستخدم "السلام عليكم"، رد بـ "وعليكم السلام".`,
             tr: `Sanal bir asistan olarak kısa ve samimi bir karşılama ile yanıtlayın. Şirket detaylarından bahsetmeyin. Kullanıcı "Merhaba" veya "Selam" dediyse, benzer şekilde kibar bir yanıt verin.`,
@@ -327,12 +347,12 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
             ${baseRoleInstruction}
             ${languageInstruction}
             ${greetingInstructions[detectedLanguage] || greetingInstructions.en}
+            ${additionalInstructions}
 
             رسالة المستخدم: ${userMessage}
             الرد:
         `;
     } else if (messageType === "well_being") {
-        // Specific instructions for well-being questions
         const wellBeingInstructions = {
             ar: `أجب بأنك ذكاء اصطناعي ليس لديك مشاعر، ولكنك جاهز للمساعدة. استخدم نبرة ودية ومفيدة. إذا سأل المستخدم "كيف حالك"، رد بـ "أنا بخير، شكراً لسؤالك! كيف يمكنني خدمتك؟".`,
             tr: `Bir yapay zeka olarak duygularınız olmadığını, ancak yardımcı olmaya hazır olduğunuzu belirtin. Samimi bir ton kullanın. Kullanıcı "Nasılsın" diye sorduysa, "İyiyim, sorduğunuz için teşekkürler! Size nasıl yardımcı olabilirim?" diye yanıtlayın.`,
@@ -342,11 +362,12 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
             ${baseRoleInstruction}
             ${languageInstruction}
             ${wellBeingInstructions[detectedLanguage] || wellBeingInstructions.en}
+            ${additionalInstructions}
 
             رسالة المستخدم: ${userMessage}
             الرد:
         `;
-    } else if (isThankYou(userMessage)) { // This block is mostly for internal consistency if it gets to Ollama
+    } else if (isThankYou(userMessage)) {
         const thankYouInstructions = {
             ar: `أجب بشكر قصير وودود. لا تذكر تفاصيل إضافية. أمثلة: "العفو!", "بكل سرور!", "يسعدني المساعدة!".`,
             tr: `Kısa ve nazik bir teşekkürle yanıtlayın. Ek detaylar vermeyin. Örnekler: "Rica ederim!", "Memnuniyetle!", "Yardımcı olabildiğime sevindim!".`,
@@ -356,13 +377,13 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
             ${baseRoleInstruction}
             ${languageInstruction}
             ${thankYouInstructions[detectedLanguage] || thankYouInstructions.en}
+            ${additionalInstructions}
 
             رسالة المستخدم: ${userMessage}
             الرد:
         `;
     } 
     else {
-        // General instructions for queries requiring company information
         const generalInstructions = {
             ar: `
                 أجب عن جميع الأسئلة حول Lineer Global باحترافية، ولباقة، وبشكل مفيد. استخدم "نحن"، "لدينا"، "لنا" عند الإشارة إلى الشركة.
@@ -371,9 +392,8 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
                 2. إذا لم تكن المعلومات الدقيقة متاحة، قدم ردًا مفيدًا بناءً على ما تعرفه عن الشركة بشكل عام (على سبيل المثال، لا تذكر تفاصيل دقيقة لمشاريع لا تعلم عنها).
                 3. حافظ دائمًا على نبرة احترافية وودية ولبقة.
                 4. لا تقل أبدًا "لا أستطيع الإجابة" أو "المعلومات غير متاحة"؛ بدلاً من ذلك، حاول صياغة إجابة مفيدة أو اقترح طريقة بديلة للحصول على المعلومات (مثل الاتصال المباشر).
-                5. إذا كنت بحاجة إلى مزيد من التفاصيل أو للتواصل المباشر، اقترح على المستخدم التواصل مع الشركة مباشرة على البريد الإلكتروني: Esam@lineerglobal.com أو الاتصال على الرقم: +90 555 158 05 28.
-                6. قم بتنسيق ردك بفقرات واضحة، ونقاط تعداد (bullet points) إذا لزم الأمر، وفواصل أسطر لسهولة القراءة. تجنب الكتل النصية الكثيفة.
-                7. تأكد من أن إجاباتك شاملة وكاملة، ولا تقطع الجمل فجأة أو تترك المعلومة ناقصة.
+                5. إذا كنت بحاجة إلى مزيد من التفاصيل أو للتواصل المباشر، اقترح على المستخدم التواصل مع الشركة مباشرة على البريد الإلكتروني: Esam@lineerglobal.com أو الاتصال على الرقم: \u200e+90 555 158 05 28.
+                6. قم بتنسيق ردك بفقرات واضحة، ونقاط تعداد (bullet points) إذا لزم الأمر، وفواصل أسطر لسهولة القراءة.
             `,
             tr: `
                 Lineer Global hakkındaki tüm soruları profesyonel ve yardımcı bir şekilde yanıtlayın. Şirketten bahsederken "biz", "bizim", "bize" kelimelerini kullanın.
@@ -383,8 +403,7 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
                 3. Her zaman profesyonel ve samimi bir ton kullanın.
                 4. Asla "cevaplayamıyorum" demeyin - her zaman faydalı bilgiler sağlayın.
                 5. Daha fazla ayrıntıya ihtiyacınız varsa, doğrudan Esam@lineerglobal.com adresinden şirketle iletişime geçmenizi önerin.
-                6. Yanıtınızı açık paragraflar, gerekirse madde işaretleri ve okunabilirlik için satır sonları ile biçimlendirin. Yoğun metin bloklarından kaçının.
-                7. Yanıtlarınızın kapsamlı ve eksiksiz olduğundan emin olun, cümleleri aniden kesmeyin.
+                6. Yanıtınızı açık paragraflar, gerekirse madde işaretleri ve okunabilirlik için satır sonları ile biçimlendirin.
             `,
             en: `
                 Answer all questions about Lineer Global professionally and helpfully. Use "we," "our," and "us" when referring to the company.
@@ -394,15 +413,14 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
                 3. Always maintain a professional, friendly tone.
                 4. Never say you cannot answer - always provide some helpful information.
                 5. If you need more details, suggest contacting the company directly at Esam@lineerglobal.com or call +90 555 158 05 28.
-                6. Format your response with clear paragraphs, bullet points if appropriate, and line breaks for readability. Avoid dense blocks of text.
-                7. Ensure your answers are comprehensive and complete; do not cut off sentences abruptly.
+                6. Format your response with clear paragraphs, bullet points if appropriate, and line breaks for readability.
             `
         };
 
-        // Combine context and instructions for detailed queries
         promptContent = `
             ${baseRoleInstruction}
             ${languageInstruction}
+            ${additionalInstructions}
             ${generalInstructions[detectedLanguage] || generalInstructions.en}
 
             Company Information about Lineer Global:
@@ -414,13 +432,13 @@ function generatePrompt(userMessage, contexts, detectedLanguage, messageType) {
         `;
     }
 
-    return promptContent.trim(); // Trim leading/trailing whitespace from the entire prompt
+    return promptContent.trim();
 }
 
 
 app.post('/ask-ollama', async (req, res) => {
     const userMessage = req.body.message;
-    const isFirstMessageInChat = req.body.isFirstMessage || false; // New parameter
+    const isFirstMessageInChat = req.body.isFirstMessage || false;
     if (!userMessage) {
         return res.status(400).json({ error: 'Message is required' });
     }
@@ -445,7 +463,7 @@ app.post('/ask-ollama', async (req, res) => {
         }
         
         if (foundDeveloperKeyword) {
-            const devInfo = companyKnowledge.developer_info[detectedLanguage] || companyKnowledge.developer_info.en;
+            const devInfo = companyKnowledge.developer_info[detectedLanguage]; // developer_info is a string, not array
             res.writeHead(200, {
                 'Content-Type': 'text/event-stream; charset=utf-8',
                 'Cache-Control': 'no-cache',
@@ -460,15 +478,21 @@ app.post('/ask-ollama', async (req, res) => {
 
 
         // Handle fixed greetings, well-being, and thank you messages
+// Handle fixed greetings
         if (isFirstMessageInChat && messageType === "greeting") {
-            const responses = companyKnowledge.greeting_responses[detectedLanguage] || companyKnowledge.greeting_responses.en;
+            // Ensure the response is strictly in the detected language for greetings
+            const responses = companyKnowledge.greeting_responses[detectedLanguage]; 
+
+            // If for some reason there are no greetings for the detected language, default to English
+            const finalResponseList = responses && responses.length > 0 ? responses : companyKnowledge.greeting_responses.en;
+
             res.writeHead(200, {
                 'Content-Type': 'text/event-stream; charset=utf-8',
                 'Cache-Control': 'no-cache',
                 'Connection': 'keep-alive',
             });
             res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
-            res.write(`data: ${JSON.stringify({ type: 'chunk', text: responses[Math.floor(Math.random() * responses.length)] })}\n\n`);
+            res.write(`data: ${JSON.stringify({ type: 'chunk', text: finalResponseList[Math.floor(Math.random() * finalResponseList.length)] })}\n\n`);
             res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
             res.end();
             return; // Exit
@@ -499,35 +523,71 @@ app.post('/ask-ollama', async (req, res) => {
         }
 
         // --- Priority 2: Attempt to find a direct knowledge base answer ---
-        // Iterate through keywordMap for other direct company information
+        // First, try to find a strong, specific keyword match before falling back to general info.
+        let directKnowledgeCategory = null;
+
+        // Define a priority for categories to ensure specific answers are preferred
+        // For example, leadership related questions should override general 'about' questions if both are present
+        const categoryPriority = {
+            "leadership": 10,
+            "contact": 9,
+            "developer_info": 8, // Already handled at Priority 1, but good to have
+            "team": 7,
+            "products_services": 6,
+            "vision_mission_values": 5,
+            "company_age": 4,
+            "global_partnerships": 3,
+            "funding": 2,
+            "branches": 1,
+            "projects": 0,
+            "about": -1 // Lowest priority for general company info
+        };
+
+        let bestCategory = null;
+        let highestPriority = -Infinity;
+
         for (const key in keywordMap) {
             const keywords = key.split('|');
             for (const keyword of keywords) {
                 if (lowerUserMessage.includes(keyword.toLowerCase())) {
                     const category = keywordMap[key];
-                    // Ensure it's not developer_info (already handled) or other fixed responses
-                    if (category !== "developer_info" && category !== "greeting_responses" && category !== "well_being_responses" && category !== "thank_you_responses") {
-                        const directResponse = companyKnowledge[category]?.[detectedLanguage] || companyKnowledge[category]?.en;
-                        if (directResponse) {
-                            res.writeHead(200, {
-                                'Content-Type': 'text/event-stream; charset=utf-8',
-                                'Cache-Control': 'no-cache',
-                                'Connection': 'keep-alive',
-                            });
-                            res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
-                            res.write(`data: ${JSON.stringify({ type: 'chunk', text: directResponse })}\n\n`);
-                            res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
-                            res.end();
-                            return; // Exit
-                        }
+                    const currentPriority = categoryPriority[category] !== undefined ? categoryPriority[category] : -2; // Default low priority for unknown
+
+                    // If this category is more specific/higher priority, choose it
+                    if (currentPriority > highestPriority) {
+                        bestCategory = category;
+                        highestPriority = currentPriority;
                     }
                 }
+            }
+        }
+
+        if (bestCategory && bestCategory !== "developer_info" && 
+            bestCategory !== "greeting_responses" && 
+            bestCategory !== "well_being_responses" && 
+            bestCategory !== "thank_you_responses" && 
+            companyKnowledge[bestCategory] && 
+            typeof companyKnowledge[bestCategory][detectedLanguage] === 'string') {
+
+            const directResponse = companyKnowledge[bestCategory]?.[detectedLanguage] || companyKnowledge[bestCategory]?.en;
+            if (directResponse) {
+                res.writeHead(200, {
+                    'Content-Type': 'text/event-stream; charset=utf-8',
+                    'Cache-Control': 'no-cache',
+                    'Connection': 'keep-alive',
+                });
+                res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
+                res.write(`data: ${JSON.stringify({ type: 'chunk', text: directResponse })}\n\n`);
+                res.write(`data: ${JSON.stringify({ type: 'end', isFallback: false })}\n\n`);
+                res.end();
+                return; // Exit
             }
         }
 
 
         // --- Fallback: If no direct fixed response, use Ollama with refined prompt ---
         console.log(`No direct fixed response found. Sending to Ollama.`);
+        // For Ollama, we still want relevant contexts but will rely more heavily on the prompt instructions
         const relevantContexts = getRelevantContext(userMessage, detectedLanguage); 
         console.log(`Found ${relevantContexts.length} relevant contexts for Ollama prompt.`);
         
@@ -572,14 +632,12 @@ app.post('/ask-ollama', async (req, res) => {
             }
         }
 
-        // Set response headers for streaming
-         res.writeHead(200, {
+        res.writeHead(200, {
             'Content-Type': 'text/event-stream; charset=utf-8', 
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
         });
 
-        // Send initial metadata (language)
         res.write(`data: ${JSON.stringify({ type: 'metadata', language: detectedLanguage })}\n\n`);
 
         const decoder = new TextDecoder();
@@ -608,7 +666,6 @@ app.post('/ask-ollama', async (req, res) => {
                     }
 
                     if (data.done) {
-                        // Check for fallback keywords from Ollama
                         const lowerFullResponse = fullResponse.toLowerCase();
                         if (lowerFullResponse.length < 20 || 
                             lowerFullResponse.includes("i don't have information") ||
@@ -632,7 +689,6 @@ app.post('/ask-ollama', async (req, res) => {
             }
         }
         
-        // Handle any remaining buffer after the loop
         if (buffer.trim() !== '') {
             try {
                 const data = JSON.parse(buffer.trim());
@@ -719,7 +775,6 @@ app.post('/ask-ollama', async (req, res) => {
                     errorMessage = "I apologize for the technical issue. Please try again or contact us directly at Esam@lineerglobal.com";
             }
         }
-        // Send a single error response and end the stream
         if (!res.headersSent) {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.json({ 
